@@ -11,14 +11,14 @@ interface ThemeContextType {
 
 // Default context value to prevent errors before initialization
 const defaultContextValue: ThemeContextType = {
-  theme: "mocha",
+  theme: "gruvbox",
   setTheme: () => {},
 };
 
 const ThemeContext = createContext<ThemeContextType>(defaultContextValue);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("mocha");
+  const [theme, setTheme] = useState<Theme>("gruvbox");
   const [mounted, setMounted] = useState(false);
 
   // Initialize theme from localStorage or default
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const validThemes = ["mocha", "latte", "macchiato", "frappe", "nord", "gruvbox"];
     const initialTheme = (savedTheme && validThemes.includes(savedTheme)) 
       ? savedTheme 
-      : "mocha";
+      : "gruvbox";
     
     setTheme(initialTheme);
     document.documentElement.setAttribute("data-theme", initialTheme);
