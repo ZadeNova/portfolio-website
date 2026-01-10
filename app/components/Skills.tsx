@@ -1,6 +1,7 @@
 // Icon component for skills
+import React from "react";
 function SkillIcon({ name }: { name: string }) {
-  const iconMap: Record<string, JSX.Element> = {
+  const iconMap: Record<string, React.ReactElement> = {
     // Languages
     "Python": (
       <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
