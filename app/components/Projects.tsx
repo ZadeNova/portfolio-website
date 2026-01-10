@@ -66,8 +66,8 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 px-6 max-w-6xl mx-auto">
-      <h2 className="text-3xl font-semibold tracking-tight text-foreground mb-12 font-mono">
+    <section id="projects" className="py-12 md:py-16 px-6 max-w-5xl mx-auto">
+      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-8 md:mb-12 font-mono text-center">
         Projects
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

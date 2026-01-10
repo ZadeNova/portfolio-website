@@ -1,18 +1,17 @@
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
-import About from "./components/About";
 import Footer from "./components/Footer";
-import ThemeSwitcher from "./components/ThemeSwitcher";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <ThemeSwitcher />
-      {/* Single scrollable page with all sections - Code editor aesthetic */}
-      <div className="pt-4">
+      {/* Single scrollable page with improved flow */}
+      <div className="pt-8">
         <Hero />
+        <div className="border-t border-border/30 my-12 md:my-16"></div>
         <Projects />
+        <div className="border-t border-border/30 my-12 md:my-16"></div>
         <Skills />
         <Footer />
       </div>

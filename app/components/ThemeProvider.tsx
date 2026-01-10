@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "mocha" | "latte" | "macchiato" | "frappe";
+type Theme = "mocha" | "latte" | "macchiato" | "frappe" | "nord" | "gruvbox";
 
 interface ThemeContextType {
   theme: Theme;
@@ -24,7 +24,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Initialize theme from localStorage or default
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as Theme;
-    const initialTheme = (savedTheme && ["mocha", "latte", "macchiato", "frappe"].includes(savedTheme)) 
+    const validThemes = ["mocha", "latte", "macchiato", "frappe", "nord", "gruvbox"];
+    const initialTheme = (savedTheme && validThemes.includes(savedTheme)) 
       ? savedTheme 
       : "mocha";
     
