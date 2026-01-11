@@ -3,141 +3,157 @@
 /* Catppuccin Mocha (Dark) */
 :root,
 [data-theme="mocha"] {
-  --background: #1e1e2e;
-  --foreground: #cdd6f4;
-  --accent-lavender: #cba6f7;
-  --accent-blue: #89b4fa;
-  --border: #45475a;
-  --muted: #6c7086;
-  --card-bg: #11111b;
-  --glow-color: rgba(203, 166, 247, 0.15);
-  --link-glow-color: rgba(203, 166, 247, 0.3);
+	--background: #1e1e2e;
+	--foreground: #cdd6f4;
+	--accent-lavender: #cba6f7;
+	--accent-blue: #89b4fa;
+	--border: #45475a;
+	--muted: #a6adc8;
+	--card-bg: #11111b;
+	--glow-color: rgba(203, 166, 247, 0.15);
+	--link-glow-color: rgba(203, 166, 247, 0.3);
 }
 
 /* Catppuccin Latte (Light) */
 [data-theme="latte"] {
-  --background: #eff1f5;
-  --foreground: #4c4f69;
-  --accent-lavender: #8839ef;
-  --accent-blue: #1e66f5;
-  --border: #acb0be;
-  --muted: #6c6f85;
-  --card-bg: #ffffff;
-  --glow-color: rgba(136, 57, 239, 0.15);
-  --link-glow-color: rgba(136, 57, 239, 0.3);
+	--background: #eff1f5;
+	--foreground: #4c4f69;
+	--accent-lavender: #8839ef;
+	--accent-blue: #1e66f5;
+	--border: #acb0be;
+	--muted: #6c6f85;
+	--card-bg: #ffffff;
+	--glow-color: rgba(136, 57, 239, 0.15);
+	--link-glow-color: rgba(136, 57, 239, 0.3);
 }
 
 /* Catppuccin Macchiato (Dark) */
 [data-theme="macchiato"] {
-  --background: #24273a;
-  --foreground: #cad3f5;
-  --accent-lavender: #c6a0f6;
-  --accent-blue: #8aadf4;
-  --border: #494d64;
-  --muted: #6e738d;
-  --card-bg: #181926;
-  --glow-color: rgba(198, 160, 246, 0.15);
-  --link-glow-color: rgba(198, 160, 246, 0.3);
+	--background: #24273a;
+	--foreground: #cad3f5;
+	--accent-lavender: #c6a0f6;
+	--accent-blue: #8aadf4;
+	--border: #494d64;
+	--muted: #b8c0e0;
+	--card-bg: #181926;
+	--glow-color: rgba(198, 160, 246, 0.15);
+	--link-glow-color: rgba(198, 160, 246, 0.3);
 }
 
 /* Catppuccin Frappe (Dark) */
 [data-theme="frappe"] {
-  --background: #303446;
-  --foreground: #c6d0f5;
-  --accent-lavender: #ca9ee6;
-  --accent-blue: #8caaee;
-  --border: #51576d;
-  --muted: #737994;
-  --card-bg: #232634;
-  --glow-color: rgba(202, 158, 230, 0.15);
-  --link-glow-color: rgba(202, 158, 230, 0.3);
+	--background: #303446;
+	--foreground: #c6d0f5;
+	--accent-lavender: #ca9ee6;
+	--accent-blue: #8caaee;
+	--border: #51576d;
+	--muted: #a5adce;
+	--card-bg: #232634;
+	--glow-color: rgba(202, 158, 230, 0.15);
+	--link-glow-color: rgba(202, 158, 230, 0.3);
 }
 
 /* Nord (Dark) */
+/* [data-theme="nord"] {
+	--background: #2e3440;
+	--foreground: #d8dee9;
+	--accent-lavender: #88c0d0;
+	--accent-blue: #5e81ac;
+	--border: #3b4252;
+	--muted: #81a1c1;
+	--card-bg: #3b4252;
+	--glow-color: rgba(136, 192, 208, 0.15);
+	--link-glow-color: rgba(136, 192, 208, 0.3);
+} */
+
+/* app/globals.css */
 [data-theme="nord"] {
-  --background: #2e3440;
-  --foreground: #d8dee9;
-  --accent-lavender: #88c0d0;
-  --accent-blue: #5e81ac;
-  --border: #3b4252;
-  --muted: #4c566a;
-  --card-bg: #3b4252;
-  --glow-color: rgba(136, 192, 208, 0.15);
-  --link-glow-color: rgba(136, 192, 208, 0.3);
+	--background: #2e3440; /* Nord 0: Darkest background */
+	--card-bg: #3b4252; /* Nord 1: Slightly lighter card */
+	--border: #4c566a; /* Nord 3: Visible boundary */
+	--foreground: #d8dee9; /* Nord 4: Main text */
+	--accent-lavender: #88c0d0; /* Nord 8: Frost Cyan */
+	--accent-blue: #81a1c1; /* Nord 9: Frost Blue */
+	--muted: #81a1c1; /* Higher contrast muted text */
+	--glow-color: rgba(136, 192, 208, 0.15);
+	--link-glow-color: rgba(136, 192, 208, 0.3);
 }
 
 /* Gruvbox (Dark) */
 [data-theme="gruvbox"] {
-  --background: #282828;
-  --foreground: #ebdbb2;
-  --accent-lavender: #fe8019;
-  --accent-blue: #83a598;
-  --border: #504945;
-  --muted: #928374;
-  --card-bg: #1d2021;
-  --glow-color: rgba(254, 128, 25, 0.15);
-  --link-glow-color: rgba(254, 128, 25, 0.3);
+	--background: #282828;
+	--foreground: #ebdbb2;
+	--accent-lavender: #fe8019;
+	--accent-blue: #83a598;
+	--border: #504945;
+	--muted: #a89984;
+	--card-bg: #1d2021;
+	--glow-color: rgba(254, 128, 25, 0.15);
+	--link-glow-color: rgba(254, 128, 25, 0.3);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent-lavender: var(--accent-lavender);
-  --color-accent-blue: var(--accent-blue);
-  --color-border: var(--border);
-  --color-muted: var(--muted);
-  --color-card-bg: var(--card-bg);
-  --color-glow: var(--glow-color);
-  --color-link-glow: var(--link-glow-color);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-accent-lavender: var(--accent-lavender);
+	--color-accent-blue: var(--accent-blue);
+	--color-border: var(--border);
+	--color-muted: var(--muted);
+	--color-card-bg: var(--card-bg);
+	--color-glow: var(--glow-color);
+	--color-link-glow: var(--link-glow-color);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-geist-sans), system-ui, sans-serif;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Monospace font for headers and code */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-geist-mono), "JetBrains Mono", monospace;
 }
 
 /* Glow effect for cards - theme-aware, subtle */
 .card-glow {
-  transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 .card-glow:hover {
-  box-shadow: 
-    0 0 8px var(--glow-color),
-    0 0 16px var(--glow-color),
-    0 2px 8px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent-lavender);
-  transform: translateY(-1px);
+	box-shadow: 0 0 8px var(--glow-color), 0 0 16px var(--glow-color),
+		0 2px 8px rgba(0, 0, 0, 0.15);
+	border-color: var(--accent-lavender);
+	transform: translateY(-1px);
 }
 
 /* Smooth scrolling */
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 /* Better focus states for accessibility */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--accent-lavender);
-  outline-offset: 2px;
-  border-radius: 2px;
+	outline: 2px solid var(--accent-lavender);
+	outline-offset: 2px;
+	border-radius: 2px;
 }
 
 /* Link button glow effect - theme-aware */
 .link-button {
-  transition: all 0.2s ease;
+	transition: all 0.2s ease;
 }
 
 .link-button:hover {
-  box-shadow: 0 0 8px var(--link-glow-color), 0 0 12px var(--link-glow-color);
-  border-color: var(--accent-lavender);
+	box-shadow: 0 0 8px var(--link-glow-color), 0 0 12px var(--link-glow-color);
+	border-color: var(--accent-lavender);
 }
