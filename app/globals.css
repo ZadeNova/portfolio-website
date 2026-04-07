@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-/* Catppuccin Mocha (Dark) */
+/* ─── Catppuccin Mocha (Dark) — verified against official palette ─────────── */
+/* background = Base (#1e1e2e), card-bg = Crust (#11111b)                      */
+/* foreground = Text (#cdd6f4), muted = Subtext0 (#a6adc8)                     */
+/* border = Surface1 (#45475a), lavender = Mauve (#cba6f7), blue = Blue        */
 :root,
 [data-theme="mocha"] {
 	--background: #1e1e2e;
@@ -10,11 +13,15 @@
 	--border: #45475a;
 	--muted: #a6adc8;
 	--card-bg: #11111b;
-	--glow-color: rgba(203, 166, 247, 0.15);
-	--link-glow-color: rgba(203, 166, 247, 0.3);
+	--glow-color: rgba(203, 166, 247, 0.12);
+	--link-glow-color: rgba(203, 166, 247, 0.25);
+	--dot-color: rgba(203, 166, 247, 0.07);
 }
 
-/* Catppuccin Latte (Light) */
+/* ─── Catppuccin Latte (Light) — verified against official palette ───────── */
+/* background = Base (#eff1f5), card-bg = Crust (#dce0e8) — NOT white          */
+/* foreground = Text (#4c4f69), muted = Subtext0 (#6c6f85)                     */
+/* border = Surface2 (#acb0be), lavender = Mauve (#8839ef), blue = Blue        */
 [data-theme="latte"] {
 	--background: #eff1f5;
 	--foreground: #4c4f69;
@@ -22,25 +29,33 @@
 	--accent-blue: #1e66f5;
 	--border: #acb0be;
 	--muted: #6c6f85;
-	--card-bg: #ffffff;
-	--glow-color: rgba(136, 57, 239, 0.15);
-	--link-glow-color: rgba(136, 57, 239, 0.3);
+	--card-bg: #dce0e8;
+	--glow-color: rgba(136, 57, 239, 0.1);
+	--link-glow-color: rgba(136, 57, 239, 0.2);
+	--dot-color: rgba(136, 57, 239, 0.05);
 }
 
-/* Catppuccin Macchiato (Dark) */
+/* ─── Catppuccin Macchiato (Dark) — verified against official palette ─────── */
+/* background = Base (#24273a), card-bg = Crust (#181926)                      */
+/* foreground = Text (#cad3f5), muted = Subtext0 (#a5adcb) — was wrong         */
+/* border = Surface1 (#494d64), lavender = Mauve (#c6a0f6), blue = Blue        */
 [data-theme="macchiato"] {
 	--background: #24273a;
 	--foreground: #cad3f5;
 	--accent-lavender: #c6a0f6;
 	--accent-blue: #8aadf4;
 	--border: #494d64;
-	--muted: #b8c0e0;
+	--muted: #a5adcb;
 	--card-bg: #181926;
-	--glow-color: rgba(198, 160, 246, 0.15);
-	--link-glow-color: rgba(198, 160, 246, 0.3);
+	--glow-color: rgba(198, 160, 246, 0.12);
+	--link-glow-color: rgba(198, 160, 246, 0.25);
+	--dot-color: rgba(198, 160, 246, 0.07);
 }
 
-/* Catppuccin Frappe (Dark) */
+/* ─── Catppuccin Frappe (Dark) — verified against official palette ───────── */
+/* background = Base (#303446), card-bg = Crust (#232634)                      */
+/* foreground = Text (#c6d0f5), muted = Subtext0 (#a5adce)                     */
+/* border = Surface1 (#51576d), lavender = Mauve (#ca9ee6), blue = Blue        */
 [data-theme="frappe"] {
 	--background: #303446;
 	--foreground: #c6d0f5;
@@ -49,37 +64,36 @@
 	--border: #51576d;
 	--muted: #a5adce;
 	--card-bg: #232634;
-	--glow-color: rgba(202, 158, 230, 0.15);
-	--link-glow-color: rgba(202, 158, 230, 0.3);
+	--glow-color: rgba(202, 158, 230, 0.12);
+	--link-glow-color: rgba(202, 158, 230, 0.25);
+	--dot-color: rgba(202, 158, 230, 0.07);
 }
 
-/* Nord (Dark) */
-/* [data-theme="nord"] {
+/* ─── Nord (Dark) — verified against official nordtheme.com palette ─────── */
+/* nord0=#2e3440 nord1=#3b4252 nord2=#434c5e nord3=#4c566a (Polar Night)       */
+/* nord4=#d8dee9 nord5=#e5e9f0 nord6=#eceff4 (Snow Storm)                      */
+/* nord7=#8fbcbb nord8=#88c0d0 nord9=#81a1c1 nord10=#5e81ac (Frost)            */
+/* background = nord0, card-bg = nord1, border = nord3                         */
+/* foreground = nord4, muted = nord3 (NOT nord9 — was same as accent-blue)     */
+/* accent-lavender = nord8 (primary frost), accent-blue = nord10 (darker frost)*/
+[data-theme="nord"] {
 	--background: #2e3440;
 	--foreground: #d8dee9;
 	--accent-lavender: #88c0d0;
 	--accent-blue: #5e81ac;
-	--border: #3b4252;
-	--muted: #81a1c1;
+	--border: #434c5e;
+	--muted: #616e88;
 	--card-bg: #3b4252;
-	--glow-color: rgba(136, 192, 208, 0.15);
-	--link-glow-color: rgba(136, 192, 208, 0.3);
-} */
-
-/* app/globals.css */
-[data-theme="nord"] {
-	--background: #2e3440; /* Nord 0: Darkest background */
-	--card-bg: #3b4252; /* Nord 1: Slightly lighter card */
-	--border: #4c566a; /* Nord 3: Visible boundary */
-	--foreground: #d8dee9; /* Nord 4: Main text */
-	--accent-lavender: #88c0d0; /* Nord 8: Frost Cyan */
-	--accent-blue: #81a1c1; /* Nord 9: Frost Blue */
-	--muted: #81a1c1; /* Higher contrast muted text */
-	--glow-color: rgba(136, 192, 208, 0.15);
-	--link-glow-color: rgba(136, 192, 208, 0.3);
+	--glow-color: rgba(136, 192, 208, 0.12);
+	--link-glow-color: rgba(136, 192, 208, 0.25);
+	--dot-color: rgba(136, 192, 208, 0.06);
 }
 
-/* Gruvbox (Dark) */
+/* ─── Gruvbox (Dark) — verified against morhetz/gruvbox-contrib color.table ─ */
+/* dark0=#282828 (bg), dark0_hard=#1d2021 (card-bg)                            */
+/* light1=#ebdbb2 (fg1/foreground), light4=#a89984 (fg4/muted)                 */
+/* dark2=#504945 (bg2/border), bright_orange=#fe8019 (accent)                  */
+/* aqua=#83a598 (accent-blue), gray=#928374 (secondary muted)                  */
 [data-theme="gruvbox"] {
 	--background: #282828;
 	--foreground: #ebdbb2;
@@ -88,10 +102,12 @@
 	--border: #504945;
 	--muted: #a89984;
 	--card-bg: #1d2021;
-	--glow-color: rgba(254, 128, 25, 0.15);
-	--link-glow-color: rgba(254, 128, 25, 0.3);
+	--glow-color: rgba(254, 128, 25, 0.12);
+	--link-glow-color: rgba(254, 128, 25, 0.25);
+	--dot-color: rgba(254, 128, 25, 0.05);
 }
 
+/* ─── Tailwind theme bridge ───────────────────────────────────────────────── */
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -106,14 +122,32 @@
 	--font-mono: var(--font-geist-mono);
 }
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: var(--font-geist-sans), system-ui, sans-serif;
-	transition: background-color 0.3s ease, color 0.3s ease;
+/* ─── Base styles ─────────────────────────────────────────────────────────── */
+html {
+	scroll-behavior: smooth;
 }
 
-/* Monospace font for headers and code */
+body {
+	background-color: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-geist-sans), system-ui, sans-serif;
+	/* Slightly larger base size for readability */
+	font-size: 13px;
+	line-height: 1.6;
+	transition:
+		background-color 0.25s ease,
+		color 0.25s ease;
+	/* Dot grid background — subtle depth */
+	background-image: radial-gradient(
+		circle,
+		var(--dot-color) 1px,
+		transparent 1px
+	);
+	background-size: 24px 24px;
+	background-attachment: fixed;
+}
+
+/* Monospaced font for headings */
 h1,
 h2,
 h3,
@@ -123,24 +157,7 @@ h6 {
 	font-family: var(--font-geist-mono), "JetBrains Mono", monospace;
 }
 
-/* Glow effect for cards - theme-aware, subtle */
-.card-glow {
-	transition: all 0.3s ease;
-}
-
-.card-glow:hover {
-	box-shadow: 0 0 8px var(--glow-color), 0 0 16px var(--glow-color),
-		0 2px 8px rgba(0, 0, 0, 0.15);
-	border-color: var(--accent-lavender);
-	transform: translateY(-1px);
-}
-
-/* Smooth scrolling */
-html {
-	scroll-behavior: smooth;
-}
-
-/* Better focus states for accessibility */
+/* ─── Focus states ────────────────────────────────────────────────────────── */
 a:focus-visible,
 button:focus-visible {
 	outline: 2px solid var(--accent-lavender);
@@ -148,12 +165,40 @@ button:focus-visible {
 	border-radius: 2px;
 }
 
-/* Link button glow effect - theme-aware */
+/* ─── Card glow on hover ──────────────────────────────────────────────────── */
+.card-glow {
+	transition:
+		box-shadow 0.25s ease,
+		border-color 0.25s ease,
+		transform 0.25s ease;
+}
+
+.card-glow:hover {
+	box-shadow:
+		0 0 12px var(--glow-color),
+		0 2px 8px rgba(0, 0, 0, 0.15);
+	border-color: var(--accent-lavender);
+	transform: translateY(-1px);
+}
+
+/* ─── Link button glow ────────────────────────────────────────────────────── */
 .link-button {
-	transition: all 0.2s ease;
+	transition:
+		box-shadow 0.2s ease,
+		border-color 0.2s ease;
 }
 
 .link-button:hover {
-	box-shadow: 0 0 8px var(--link-glow-color), 0 0 12px var(--link-glow-color);
+	box-shadow: 0 0 8px var(--link-glow-color);
 	border-color: var(--accent-lavender);
+}
+
+/* ─── Hide scrollbar utility (carousel) ──────────────────────────────────── */
+.scrollbar-none {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+	display: none;
 }

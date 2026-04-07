@@ -2,62 +2,51 @@
 
 import { useTheme } from "./ThemeProvider";
 
-const themes = [
-	{ id: "mocha", name: "Mocha" },
-	{ id: "latte", name: "Latte" },
-	{ id: "macchiato", name: "Macchiato" },
-	{ id: "frappe", name: "Frappe" },
-	{ id: "nord", name: "Nord" },
-	{ id: "gruvbox", name: "Gruvbox" },
+const THEMES = [
+	{ id: "mocha", name: "Mocha", emoji: "🌿" },
+	{ id: "latte", name: "Latte", emoji: "☀️" },
+	{ id: "macchiato", name: "Macchiato", emoji: "🌺" },
+	{ id: "frappe", name: "Frappe", emoji: "🪴" },
+	{ id: "nord", name: "Nord", emoji: "❄️" },
+	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
 ] as const;
+
+type ThemeId = (typeof THEMES)[number]["id"];
 
 export default function ThemeSwitcher() {
 	const { theme, setTheme } = useTheme();
 
 	return (
-		<div className="h-full flex flex-col">
-			<h3 className="text-sm font-semibold text-foreground mb-4 font-mono">
+		<div className="flex flex-col h-full">
+			<div className="text-[9px] text-muted uppercase tracking-widest mb-3 font-mono">
 				Theme
-			</h3>
-			<div className="grid grid-cols-1  gap-2">
-				{themes.map((t) => (
-					<button
-						key={t.id}
-						onClick={() =>
-							setTheme(
-								t.id as
-									| "mocha"
-									| "latte"
-									| "macchiato"
-									| "frappe"
-									| "nord"
-									| "gruvbox"
-							)
-						}
-						className={`px-2.5 py-2 text-xs font-mono rounded-md transition-all text-center ${
-							theme === t.id
-								? "bg-accent-lavender text-background shadow-sm font-semibold"
-								: "text-foreground hover:bg-accent-lavender/10 border-[0.5px] border-border"
-						}`}
-						title={t.name}
-						aria-label={`Switch to ${t.name} theme`}
-					>
-						{t.name}
-					</button>
-				))}
 			</div>
-			{/* <div className="mt-auto pt-4 border-t-[0.5px] border-border">
-				<div className="space-y-1 font-mono text-[10px]">
-					<div className="text-muted"># current_env</div>
-					<div className="flex items-center gap-2">
-						<span className="text-accent-blue">SET</span>
-						<span className="text-foreground uppercase">{theme}_MODE</span>
-					</div>
-					<div className="text-muted/50 italic">
-						Load SIT_Applied_Fintech.sh
-					</div>
-				</div>
-			</div> */}
+			<div className="flex flex-col gap-2">
+				{THEMES.map((t) => {
+					const isActive = theme === t.id;
+					return (
+						<button
+							key={t.id}
+							onClick={() => setTheme(t.id as ThemeId)}
+							aria-label={`Switch to ${t.name} theme`}
+							aria-pressed={isActive}
+							className={`
+								flex items-center gap-2 px-2.5 py-1.5 text-[11px] font-mono rounded transition-all
+								${
+									isActive
+										? "bg-accent-lavender text-background font-semibold"
+										: "text-foreground border-[0.5px] border-border hover:border-accent-lavender/50 hover:text-accent-lavender"
+								}
+							`}
+						>
+							<span className="text-[12px] leading-none" aria-hidden="true">
+								{t.emoji}
+							</span>
+							<span>{t.name}</span>
+						</button>
+					);
+				})}
+			</div>
 		</div>
 	);
 }
