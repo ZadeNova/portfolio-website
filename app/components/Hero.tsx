@@ -32,7 +32,8 @@ const ABOUT_ROWS: { key: string; value: string }[] = [
 		key: "> focus",
 		value: "Backend Engineering · DevOps · Site Reliability Engineering",
 	},
-	{ key: "> goal", value: "Survive" },
+	{ key: "> goal", value: "Upskill myself and enjoy the process." },
+	{ key: "> hobbies", value: "Gaming, Coding, Gym, Calisthenics, TV/Movies" },
 ];
 
 // YAML manifest — three logical groups
@@ -53,8 +54,8 @@ const MANIFEST_RUNTIME = [
 ];
 
 const MANIFEST_LEARNING = [
-	{ key: "active", values: ["go concurrency", "spring boot"] },
-	{ key: "next_queue", values: ["rust", "kafka", "kubernetes"] },
+	{ key: "active", values: ["Golang"] },
+	{ key: "next_queue", values: ["AWS", "terraform", "kubernetes"] },
 ];
 
 const SOCIALS: Social[] = [
@@ -314,7 +315,7 @@ export default function Hero() {
 								$ cat role.txt
 							</div>
 							<div className="text-[11px] text-foreground">
-								Backend &amp; Fintech Engineer
+								Aspiring Backend Engineer
 							</div>
 						</div>
 						<div>
@@ -370,10 +371,10 @@ export default function Hero() {
 									Seeking
 								</div>
 								<div className="text-[11px] text-foreground">
-									Summer 2026 Internships
+									May 2027 - May 2028 1Y Internship
 								</div>
 								<div className="text-[10px] text-muted italic mt-0.5">
-									May — Aug 2026
+									May 2027 — May 2028
 								</div>
 							</div>
 							<div>
@@ -381,7 +382,7 @@ export default function Hero() {
 									Interests
 								</div>
 								<div className="text-[11px] text-foreground">
-									Backend · Data · Fintech
+									Backend · DevOps · SRE ·Fintech
 								</div>
 							</div>
 						</div>
