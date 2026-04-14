@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -15,18 +15,15 @@ interface TechTag {
 
 interface Project {
 	name: string;
-	problem: string;
-	tags: TechTag[];
-	decisions: string[];
+	description: string; // replaces problem + decisions
 	learned: string;
+	tags: TechTag[];
 	filters: FilterTag[];
 	repoUrl?: string;
 	liveUrl?: string;
 }
 
-// ─── Tag category colours — theme-aware via CSS vars ─────────────────────────
-// language → green  |  ops → yellow/amber  |  framework → blue
-// data → lavender   |  db  → teal-ish blue |  other → muted
+// ─── Tag styles — mono font, category-coloured ───────────────────────────────
 
 const TAG_STYLES: Record<TechCategory, string> = {
 	language: "border-green-500/40  text-green-400",
@@ -42,8 +39,10 @@ const TAG_STYLES: Record<TechCategory, string> = {
 const PROJECTS: Project[] = [
 	{
 		name: "BullBear Analysis",
-		problem:
-			"Perform sophisticated technical analysis and trend identification on historical stock data with production-ready visualization.",
+		description:
+			"A production-ready financial analysis tool that runs sophisticated technical indicators (MACD, RSI, Bollinger Bands) against historical stock data and surfaces buy/sell signals through an interactive Streamlit dashboard. Containerized via Docker to eliminate TA-Lib C-library setup friction, with analytics logic fully decoupled from the visualization layer for maintainability. Includes a theoretical profit maximization engine to back-test signal accuracy against historical price data.",
+		learned:
+			"Environment containerization for specialized C-dependencies and decoupling data processing from interactive visualization in Streamlit.",
 		tags: [
 			{ name: "Python", category: "language" },
 			{ name: "Docker", category: "ops" },
@@ -52,53 +51,36 @@ const PROJECTS: Project[] = [
 			{ name: "Pandas", category: "data" },
 			{ name: "Plotly", category: "data" },
 		],
-		decisions: [
-			"Used Docker to containerize the application, bypassing complex local setup requirements for the TA-Lib C-library",
-			"Decoupled core financial analytics and indicator logic from the UI into a modular package structure for maintainability",
-			"Implemented a theoretical profit maximization algorithm to validate buy/sell signals against historical data",
-		],
-		learned:
-			"Importance of environment containerization for specialized C-dependencies and how to decouple data processing from interactive visualization in Streamlit.",
 		filters: ["ALL", "BACKEND", "FINTECH"],
 		repoUrl: "https://github.com/ZadeNova",
 	},
 	{
 		name: "Class Management System",
-		problem:
-			"Efficiently manage, analyze, and visualize student records using custom high-performance data structures in a C-based CLI environment.",
+		description:
+			"A CLI-based student records system built in C using custom data structures — hash tables for O(1) ID lookups, a stack-based undo system for state recovery, and role-based access control separating Staff (write) from Student (read-only) permissions. Automated regression testing written with the Tcl/Expect framework. Demonstrates low-level memory management and systems design without relying on higher-level language abstractions.",
+		learned:
+			"Mastered low-level memory management and custom data structure design in C while implementing automated regression testing suites with the Tcl/Expect framework.",
 		tags: [
 			{ name: "C", category: "language" },
 			{ name: "MakeFile", category: "ops" },
 		],
-		decisions: [
-			"Utilized custom Hash Tables to achieve O(1) time complexity for student retrieval by ID, ensuring scalable lookup performance",
-			"Designed and implemented a stack-based undo functionality to maintain data integrity and allow for reliable state recovery",
-			"Built a role-based access control system to enforce distinct permissions between administrative Staff (Write) and Student (Read-only) users",
-		],
-		learned:
-			"Mastered low-level memory management and custom data structure design in C while implementing automated regression testing suites with the Tcl/Expect framework.",
 		filters: ["ALL", "SYSTEMS"],
 		repoUrl: "https://github.com/ZadeNova",
 	},
 	{
 		name: "TickerLens",
-		problem:
-			"Develop a lightweight, one-stop financial analysis web app providing delayed stock metrics and a price chart.",
+		description:
+			"A full-stack financial dashboard with a FastAPI backend and Next.js frontend that delivers delayed stock metrics, interactive price charts, and benchmark comparisons against the S&P 500 across YTD, 1Y, 3Y, and 5Y timeframes. Pydantic models enforce strict schema validation between the Python backend and React frontend. A custom date-alignment algorithm using pytz and relativedelta accurately maps historical price points to the nearest US trading day.",
+		learned:
+			"Gained deep experience in full-stack orchestration, focusing on type-safe API design with Pydantic and interactive data visualization with Recharts.",
 		tags: [
 			{ name: "Next.js", category: "framework" },
 			{ name: "FastAPI", category: "framework" },
 			{ name: "Python", category: "language" },
 			{ name: "TailwindCSS", category: "framework" },
-			{ name: "yfinance", category: "data" },
+			{ name: "yFinance", category: "data" },
 			{ name: "Recharts", category: "data" },
 		],
-		decisions: [
-			"Implemented a benchmark comparison engine to calculate and track ticker performance against the S&P 500 across YTD, 1Y, 3Y, and 5Y timeframes",
-			"Utilized Pydantic models to enforce strict schema validation for stock, ETF, and historical price data, ensuring type safety between the Python backend and Next.js frontend",
-			"Developed a custom date-alignment algorithm using pytz and relativedelta to accurately map historical price points to nearest trading days relative to US market hours",
-		],
-		learned:
-			"Gained deep experience in full-stack orchestration, focusing on type-safe API design with Pydantic and interactive data visualization with Recharts.",
 		filters: ["ALL", "BACKEND", "FINTECH"],
 		repoUrl: "https://github.com/ZadeNova",
 	},
@@ -138,6 +120,21 @@ function ExternalLinkIcon() {
 	);
 }
 
+function ChevronIcon({ open }: { open: boolean }) {
+	return (
+		<svg
+			viewBox="0 0 24 24"
+			className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			aria-hidden="true"
+		>
+			<polyline points="6 9 12 15 18 9" />
+		</svg>
+	);
+}
+
 // ─── Desktop expandable row ───────────────────────────────────────────────────
 
 interface DesktopRowProps {
@@ -151,107 +148,163 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 	const cardNumber = String(index + 1).padStart(2, "0");
 
 	return (
-		<article className="border-[0.5px] border-border border-l-2 border-l-accent-lavender rounded-r-lg bg-card-bg font-mono transition-colors duration-150 hover:border-accent-lavender/40">
-			{/* Collapsed row */}
-			<div className="flex items-center gap-3 px-4 py-3">
-				{/* Clickable region — index + name + tags + summary */}
+		<article
+			className={`flex overflow-hidden rounded-r-lg transition-all duration-150 glass-card ${
+				isExpanded ? "glass-card--active" : ""
+			}`}
+			style={{
+				borderLeftWidth: "2px",
+				borderLeftColor: isExpanded
+					? "var(--accent-lavender)"
+					: "rgba(203,166,247,0.25)",
+			}}
+		>
+			{/* Collapsed header row — always visible */}
+			<div className="flex-1 min-w-0">
 				<button
 					onClick={onToggle}
 					aria-expanded={isExpanded}
 					aria-controls={`project-detail-${index}`}
-					className="flex items-center gap-3 flex-1 min-w-0 text-left group"
+					className="w-full flex items-center gap-3 px-4 py-3 text-left group"
 				>
-					<span className="text-[11px] text-muted/40 font-bold flex-shrink-0 w-6 tabular-nums">
+					<span className="text-[11px] text-muted/50 font-bold font-mono flex-shrink-0 w-6 tabular-nums">
 						{cardNumber}
 					</span>
-					<span className="text-[13px] font-bold text-accent-lavender flex-shrink-0 min-w-[160px] group-hover:text-accent-lavender/90 transition-colors">
+					<span className="text-[13px] font-semibold text-accent-lavender flex-shrink-0 min-w-[160px] font-sans group-hover:opacity-90 transition-opacity">
 						{project.name}
 					</span>
-					<div className="flex gap-1.5 flex-wrap flex-1">
-						{project.tags.map((tag) => (
+					<div className="flex gap-1.5 flex-wrap flex-1 min-w-0">
+						{project.tags.slice(0, 5).map((tag) => (
 							<span
 								key={tag.name}
-								className={`text-[9px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide ${TAG_STYLES[tag.category]}`}
+								className={`text-[8px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
 							>
 								{tag.name}
 							</span>
 						))}
+						{project.tags.length > 5 && (
+							<span className="text-[8px] text-muted font-mono">
+								+{project.tags.length - 5}
+							</span>
+						)}
 					</div>
-					<span className="text-[11px] text-muted hidden xl:block flex-shrink-0 max-w-[260px] truncate">
-						{project.problem}
+					<span className="text-[10px] text-muted/60 font-mono flex-shrink-0 hidden lg:block max-w-[260px] truncate">
+						{project.description.slice(0, 72)}…
 					</span>
+					<div className="flex items-center gap-2 ml-3 flex-shrink-0 text-muted/50">
+						{project.repoUrl && (
+							<a
+								href={project.repoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								onClick={(e) => e.stopPropagation()}
+								className="hover:text-accent-lavender transition-colors"
+								aria-label={`${project.name} GitHub repository`}
+							>
+								<GitHubIcon />
+							</a>
+						)}
+						{project.liveUrl && (
+							<a
+								href={project.liveUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								onClick={(e) => e.stopPropagation()}
+								className="hover:text-accent-lavender transition-colors"
+								aria-label={`${project.name} live demo`}
+							>
+								<ExternalLinkIcon />
+							</a>
+						)}
+						<span className="text-muted/40">
+							<ChevronIcon open={isExpanded} />
+						</span>
+					</div>
 				</button>
 
-				{/* Row actions — always visible, no expand needed */}
-				<div className="flex items-center gap-2 flex-shrink-0 ml-2">
-					{project.repoUrl && (
-						<a
-							href={project.repoUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label={`GitHub repo for ${project.name}`}
-							className="text-muted hover:text-accent-lavender transition-colors p-1"
-						>
-							<GitHubIcon />
-						</a>
-					)}
-					{project.liveUrl && (
-						<a
-							href={project.liveUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							aria-label={`Live demo for ${project.name}`}
-							className="text-muted hover:text-accent-lavender transition-colors p-1"
-						>
-							<ExternalLinkIcon />
-						</a>
-					)}
-					<button
-						onClick={onToggle}
-						aria-label={isExpanded ? "Collapse" : "Expand"}
-						className={`text-muted/60 text-[10px] transition-transform duration-200 p-1 hover:text-accent-lavender ${isExpanded ? "rotate-180" : "rotate-0"}`}
+				{/* Expanded body */}
+				{isExpanded && (
+					<div
+						id={`project-detail-${index}`}
+						className="grid grid-cols-1 md:grid-cols-2 gap-0 border-t font-mono"
+						style={{ borderColor: "var(--glass-border)" }}
 					>
-						▼
-					</button>
-				</div>
-			</div>
-
-			{/* Expanded detail */}
-			{isExpanded && (
-				<div
-					id={`project-detail-${index}`}
-					className="px-4 pb-4 border-t border-border/30"
-				>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
-						<div>
-							<p className="text-[11px] text-muted leading-relaxed mb-4">
-								{project.problem}
-							</p>
-							<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2.5">
-								LOGIC:
+						{/* Left — description */}
+						<div
+							className="p-4 md:p-5"
+							style={{ borderRight: "0.5px solid var(--glass-border)" }}
+						>
+							<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-3">
+								Overview
 							</div>
-							<ul className="space-y-2">
-								{project.decisions.map((d, i) => (
-									<li key={i} className="flex items-start gap-2.5 text-[11px]">
-										<span className="text-muted/40 flex-shrink-0 mt-0.5">
-											—
-										</span>
-										<span className="text-foreground leading-relaxed">{d}</span>
-									</li>
-								))}
-							</ul>
+							<p className="text-[12px] text-foreground/80 leading-relaxed font-sans">
+								{project.description}
+							</p>
 						</div>
-						<div className="lg:border-l lg:border-border/30 lg:pl-6">
-							<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2.5">
-								LEARNED:
+
+						{/* Right — learned + tags + links */}
+						<div className="p-4 md:p-5 flex flex-col gap-4">
+							<div>
+								<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2">
+									Learned
+								</div>
+								<div
+									className="rounded p-3 text-[11px] leading-relaxed font-sans"
+									style={{
+										background: "var(--glass-tint)",
+										border: "0.5px solid var(--glass-border)",
+										color: "var(--foreground)",
+										opacity: 0.85,
+									}}
+								>
+									{project.learned}
+								</div>
 							</div>
-							<p className="text-[11px] text-foreground leading-relaxed">
-								{project.learned}
-							</p>
+
+							<div>
+								<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2">
+									Stack
+								</div>
+								<div className="flex flex-wrap gap-1.5">
+									{project.tags.map((tag) => (
+										<span
+											key={tag.name}
+											className={`text-[9px] border-[0.5px] rounded px-2 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
+										>
+											{tag.name}
+										</span>
+									))}
+								</div>
+							</div>
+
+							<div className="flex gap-2 mt-auto">
+								{project.repoUrl && (
+									<a
+										href={project.repoUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="flex items-center gap-1.5 text-[9px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
+									>
+										<GitHubIcon />
+										Source
+									</a>
+								)}
+								{project.liveUrl && (
+									<a
+										href={project.liveUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="flex items-center gap-1.5 text-[9px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
+									>
+										<ExternalLinkIcon />
+										Live
+									</a>
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</article>
 	);
 }
@@ -261,126 +314,96 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 function MobileCard({ project, index }: { project: Project; index: number }) {
 	const cardNumber = String(index + 1).padStart(2, "0");
 	return (
-		<article className="relative bg-card-bg border-[0.5px] border-border border-l-2 border-l-accent-lavender rounded-r-lg flex flex-col h-full overflow-hidden font-mono">
+		<article
+			className="glass-card relative flex flex-col h-full overflow-hidden rounded-r-lg"
+			style={{
+				borderLeftWidth: "2px",
+				borderLeftColor: "var(--accent-lavender)",
+			}}
+		>
 			<span
-				className="absolute top-1 left-2 text-[42px] font-bold leading-none text-border/40 select-none pointer-events-none"
+				className="absolute top-1 left-2 text-[42px] font-bold leading-none text-border/30 select-none pointer-events-none font-mono"
 				aria-hidden="true"
 			>
 				{cardNumber}
 			</span>
 			<div className="relative p-4 flex flex-col h-full">
 				<div className="flex items-start justify-between gap-2 mb-3">
-					<h3 className="text-[14px] font-bold text-accent-lavender leading-tight">
+					<h3 className="text-[14px] font-semibold text-accent-lavender leading-tight font-sans">
 						{project.name}
 					</h3>
 					<div className="flex flex-wrap justify-end gap-1 max-w-[45%]">
-						{project.tags.map((tag) => (
+						{project.tags.slice(0, 4).map((tag) => (
 							<span
 								key={tag.name}
-								className={`text-[8px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide ${TAG_STYLES[tag.category]}`}
+								className={`text-[8px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
 							>
 								{tag.name}
 							</span>
 						))}
 					</div>
 				</div>
-				<p className="text-[11px] text-muted leading-relaxed mb-3">
-					{project.problem}
+
+				<p className="text-[11px] text-foreground/75 leading-relaxed mb-4 font-sans">
+					{project.description}
 				</p>
-				<div className="flex-grow mb-3">
-					<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2">
-						LOGIC:
+
+				<div
+					className="rounded p-3 mb-4 text-[11px] leading-relaxed font-sans"
+					style={{
+						background: "var(--glass-tint)",
+						border: "0.5px solid var(--glass-border)",
+						color: "var(--muted)",
+					}}
+				>
+					<span
+						className="text-[9px] uppercase tracking-widest font-mono mr-2"
+						style={{ color: "var(--muted)", opacity: 0.6 }}
+					>
+						Learned:
+					</span>
+					{project.learned}
+				</div>
+
+				{(project.repoUrl ?? project.liveUrl) && (
+					<div className="flex gap-2 mt-auto">
+						{project.repoUrl && (
+							<a
+								href={project.repoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="flex items-center gap-1.5 text-[9px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
+							>
+								<GitHubIcon />
+								Source
+							</a>
+						)}
+						{project.liveUrl && (
+							<a
+								href={project.liveUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="flex items-center gap-1.5 text-[9px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
+							>
+								<ExternalLinkIcon />
+								Live
+							</a>
+						)}
 					</div>
-					<ul className="space-y-2">
-						{project.decisions.map((d, i) => (
-							<li key={i} className="flex items-start gap-2 text-[11px]">
-								<span className="text-muted/40 flex-shrink-0 mt-0.5">—</span>
-								<span className="text-foreground leading-relaxed">{d}</span>
-							</li>
-						))}
-					</ul>
-				</div>
-				<div className="border-t border-border/30 pt-3 mt-auto">
-					<p className="text-[11px] text-muted leading-relaxed">
-						<span className="text-muted/60 uppercase tracking-widest text-[9px] mr-2">
-							LEARNED:
-						</span>
-						{project.learned}
-					</p>
-					{(project.repoUrl ?? project.liveUrl) && (
-						<div className="flex gap-2 mt-3">
-							{project.repoUrl && (
-								<a
-									href={project.repoUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="flex items-center gap-1.5 text-[10px] text-muted hover:text-accent-lavender border-[0.5px] border-border hover:border-accent-lavender/50 rounded px-2.5 py-1.5 transition-colors"
-								>
-									<GitHubIcon /> Source
-								</a>
-							)}
-							{project.liveUrl && (
-								<a
-									href={project.liveUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="flex items-center gap-1.5 text-[10px] text-muted hover:text-accent-lavender border-[0.5px] border-border hover:border-accent-lavender/50 rounded px-2.5 py-1.5 transition-colors"
-								>
-									<ExternalLinkIcon /> Live
-								</a>
-							)}
-						</div>
-					)}
-				</div>
+				)}
 			</div>
 		</article>
 	);
-}
-
-// ─── Carousel hook ────────────────────────────────────────────────────────────
-
-function useCarouselIndex(
-	trackRef: React.RefObject<HTMLDivElement | null>,
-	total: number,
-): number {
-	const [activeIndex, setActiveIndex] = useState(0);
-	useEffect(() => {
-		const el = trackRef.current;
-		if (!el) return;
-		const onScroll = () => {
-			const idx = Math.round(el.scrollLeft / (el.scrollWidth / total));
-			setActiveIndex(Math.min(Math.max(idx, 0), total - 1));
-		};
-		el.addEventListener("scroll", onScroll, { passive: true });
-		return () => el.removeEventListener("scroll", onScroll);
-	}, [trackRef, total]);
-	return activeIndex;
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Projects() {
 	const [activeFilter, setActiveFilter] = useState<FilterTag>("ALL");
-	const [expandedIndex, setExpandedIndex] = useState<number | null>(0); // first open by default
+	const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 	const [showAll, setShowAll] = useState(false);
 
-	const trackRef = useRef<HTMLDivElement>(null);
-	const activeCarouselIndex = useCarouselIndex(trackRef, PROJECTS.length);
-
-	const scrollToIndex = useCallback((index: number) => {
-		const el = trackRef.current;
-		if (!el) return;
-		el.scrollTo({
-			left: (el.scrollWidth / PROJECTS.length) * index,
-			behavior: "smooth",
-		});
-	}, []);
-
-	const filtered = useMemo(
-		() => PROJECTS.filter((p) => p.filters.includes(activeFilter)),
-		[activeFilter],
-	);
-
+	const filtered = PROJECTS.filter((p) => p.filters.includes(activeFilter));
 	const displayed = showAll ? filtered : filtered.slice(0, 3);
 
 	const handleToggle = (index: number) => {
@@ -389,8 +412,23 @@ export default function Projects() {
 
 	const handleFilterChange = (f: FilterTag) => {
 		setActiveFilter(f);
-		setExpandedIndex(0); // reset expand to first on filter change
+		setExpandedIndex(0);
 	};
+
+	// ── Mobile snap scroll refs ───────────────────────────────────────────────
+	const scrollRef = useRef<HTMLDivElement>(null);
+	const [activeCard, setActiveCard] = useState(0);
+
+	useEffect(() => {
+		const el = scrollRef.current;
+		if (!el) return;
+		const onScroll = () => {
+			const idx = Math.round(el.scrollLeft / el.clientWidth);
+			setActiveCard(idx);
+		};
+		el.addEventListener("scroll", onScroll, { passive: true });
+		return () => el.removeEventListener("scroll", onScroll);
+	}, []);
 
 	return (
 		<section
@@ -413,22 +451,21 @@ export default function Projects() {
 					</span>
 				</div>
 
-				{/* Filter bar — "grep" approach */}
-				<div
-					className="flex gap-1.5 font-mono"
-					role="group"
-					aria-label="Filter projects"
-				>
+				{/* Filter bar — glass pills */}
+				<div className="flex gap-1.5" role="group" aria-label="Filter projects">
 					{FILTERS.map((f) => (
 						<button
 							key={f}
 							onClick={() => handleFilterChange(f)}
 							aria-pressed={activeFilter === f}
-							className={`text-[9px] px-2.5 py-1.5 rounded border-[0.5px] uppercase tracking-widest transition-colors ${
+							className={`text-[9px] px-3 py-1.5 rounded-full border-[0.5px] uppercase tracking-widest font-mono transition-all duration-150 backdrop-blur-sm ${
 								activeFilter === f
-									? "bg-accent-lavender text-background border-accent-lavender font-bold"
-									: "text-muted border-border hover:text-accent-lavender hover:border-accent-lavender/50"
+									? "bg-accent-lavender/20 text-accent-lavender border-accent-lavender/50 font-bold"
+									: "text-muted border-border/50 hover:text-accent-lavender hover:border-accent-lavender/30"
 							}`}
+							style={{
+								background: activeFilter === f ? undefined : "var(--glass-bg)",
+							}}
 						>
 							{f}
 						</button>
@@ -436,16 +473,9 @@ export default function Projects() {
 				</div>
 			</div>
 
-			{/* ── Desktop: scrollable fixed-height list (md+) ─────────────── */}
+			{/* ── Desktop: accordion list ──────────────────────────────────── */}
 			<div className="hidden md:block">
-				<div
-					className="flex flex-col gap-2 overflow-y-auto pr-1"
-					style={{
-						maxHeight: "520px",
-						scrollbarWidth: "thin",
-						scrollbarColor: "var(--border) transparent",
-					}}
-				>
+				<div className="flex flex-col gap-2">
 					{displayed.map((project, idx) => (
 						<DesktopRow
 							key={project.name}
@@ -457,11 +487,11 @@ export default function Projects() {
 					))}
 				</div>
 
-				{/* Load all toggle */}
 				{filtered.length > 3 && (
 					<button
 						onClick={() => setShowAll((s) => !s)}
-						className="w-full mt-3 py-2 text-[10px] font-mono text-muted border-[0.5px] border-border/50 border-dashed rounded hover:text-accent-lavender hover:border-accent-lavender/40 transition-colors tracking-widest uppercase"
+						className="w-full mt-3 py-2 text-[10px] font-mono text-muted border-[0.5px] border-dashed rounded hover:text-accent-lavender hover:border-accent-lavender/40 transition-colors tracking-widest uppercase"
+						style={{ borderColor: "var(--glass-border)" }}
 					>
 						{showAll
 							? "[ COLLAPSE_MODULES ]"
@@ -470,38 +500,32 @@ export default function Projects() {
 				)}
 			</div>
 
-			{/* ── Mobile: horizontal scroll carousel (< md) ───────────────── */}
+			{/* ── Mobile: snap scroll carousel ─────────────────────────────── */}
 			<div className="md:hidden">
 				<div
-					ref={trackRef}
-					className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth scrollbar-none"
-					role="region"
-					aria-label="Project cards"
+					ref={scrollRef}
+					className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3"
+					style={{ scrollbarWidth: "none" }}
 				>
-					{PROJECTS.map((project, idx) => (
+					{filtered.map((project, idx) => (
 						<div
 							key={project.name}
-							className="snap-start flex-shrink-0 w-[88vw] sm:w-[75vw]"
+							className="flex-shrink-0 w-[85vw] snap-start"
 						>
 							<MobileCard project={project} index={idx} />
 						</div>
 					))}
 				</div>
-				<div
-					className="flex items-center justify-center gap-2 mt-4"
-					role="tablist"
-				>
-					{PROJECTS.map((project, idx) => (
-						<button
-							key={project.name}
-							role="tab"
-							aria-selected={activeCarouselIndex === idx}
-							aria-label={`Go to project ${idx + 1}: ${project.name}`}
-							onClick={() => scrollToIndex(idx)}
-							className={`transition-all duration-300 rounded-sm ${
-								activeCarouselIndex === idx
-									? "w-5 h-[3px] bg-accent-lavender"
-									: "w-[5px] h-[3px] bg-border hover:bg-muted"
+
+				{/* Dot indicators */}
+				<div className="flex justify-center gap-1.5 mt-3" aria-hidden="true">
+					{filtered.map((_, idx) => (
+						<span
+							key={idx}
+							className={`rounded-full transition-all duration-200 ${
+								activeCard === idx
+									? "w-4 h-1.5 bg-accent-lavender"
+									: "w-1.5 h-1.5 bg-border"
 							}`}
 						/>
 					))}

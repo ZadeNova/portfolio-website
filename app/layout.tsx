@@ -4,44 +4,46 @@ import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Backend Systems Engineer",
-  description: "Portfolio of a backend and systems-oriented software engineer",
+	title: "Backend Systems Engineer",
+	description: "Portfolio of a backend and systems-oriented software engineer",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
               (function() {
-                const theme = localStorage.getItem('theme') || 'mocha';
+                var valid = ['mocha','nord','gruvbox','rosepine','rosepine-dawn','dracula'];
+                var saved = localStorage.getItem('theme');
+                var theme = (saved && valid.indexOf(saved) !== -1) ? saved : 'mocha';
                 document.documentElement.setAttribute('data-theme', theme);
               })();
             `,
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
-  );
+					}}
+				/>
+			</head>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				<ThemeProvider>{children}</ThemeProvider>
+			</body>
+		</html>
+	);
 }

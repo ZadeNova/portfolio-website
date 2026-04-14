@@ -4,11 +4,11 @@ import { useTheme } from "./ThemeProvider";
 
 const THEMES = [
 	{ id: "mocha", name: "Mocha", emoji: "🌿" },
-	{ id: "latte", name: "Latte", emoji: "☀️" },
-	{ id: "macchiato", name: "Macchiato", emoji: "🌺" },
-	{ id: "frappe", name: "Frappe", emoji: "🪴" },
 	{ id: "nord", name: "Nord", emoji: "❄️" },
 	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
+	{ id: "rosepine", name: "Rosé Pine", emoji: "🌸" },
+	{ id: "rosepine-dawn", name: "Rosé Pine Dawn", emoji: "🌅" },
+	{ id: "dracula", name: "Dracula", emoji: "🧛" },
 ] as const;
 
 type ThemeId = (typeof THEMES)[number]["id"];
@@ -31,13 +31,13 @@ export default function ThemeSwitcher() {
 							aria-label={`Switch to ${t.name} theme`}
 							aria-pressed={isActive}
 							className={`
-								flex items-center gap-2 px-2.5 py-1.5 text-[11px] font-mono rounded transition-all
-								${
+                flex items-center gap-2 px-2.5 py-1.5 text-[11px] font-mono rounded transition-all
+                ${
 									isActive
 										? "bg-accent-lavender text-background font-semibold"
 										: "text-foreground border-[0.5px] border-border hover:border-accent-lavender/50 hover:text-accent-lavender"
 								}
-							`}
+              `}
 						>
 							<span className="text-[12px] leading-none" aria-hidden="true">
 								{t.emoji}

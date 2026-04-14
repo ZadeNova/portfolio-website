@@ -4,21 +4,15 @@ import TimeDisplay from "./TimeDisplay";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useState, useEffect } from "react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type StatusVariant = "open" | "interning" | "unavailable";
-
 interface StatusConfig {
 	label: string;
 	variant: StatusVariant;
 }
-
 interface Social {
 	label: string;
 	href: string;
 }
-
-// ─── Constants ────────────────────────────────────────────────────────────────
 
 const STATUS: StatusConfig = {
 	label: "Interning @ ECICS",
@@ -27,7 +21,7 @@ const STATUS: StatusConfig = {
 
 const ABOUT_ROWS: { key: string; value: string }[] = [
 	{ key: "> background", value: "Applied Fintech undergraduate @ SIT" },
-	{ key: "> currently", value: "Fullstack Developer Intern @ ECICS Limited" }, // Added your role here
+	{ key: "> currently", value: "Fullstack Developer Intern @ ECICS Limited" },
 	{
 		key: "> focus",
 		value: "Backend Engineering · DevOps · Site Reliability Engineering",
@@ -36,7 +30,6 @@ const ABOUT_ROWS: { key: string; value: string }[] = [
 	{ key: "> hobbies", value: "Gaming, Coding, Gym, Calisthenics, TV/Movies" },
 ];
 
-// YAML manifest — three logical groups
 const MANIFEST_CORE = [
 	{ key: "languages", values: ["python", "go", "java", "C", "typescript"] },
 	{ key: "databases", values: ["postgres", "mysql", "sql"] },
@@ -66,8 +59,6 @@ const SOCIALS: Social[] = [
 
 const RESUME_URL = "/resume.pdf";
 const EMAIL = "your.email@example.com";
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function StatusBadge({ config }: { config: StatusConfig }) {
 	const dotColor: Record<StatusVariant, string> = {
@@ -116,7 +107,7 @@ function YamlSection({
 	return (
 		<div className="mb-3">
 			{comment && (
-				<div className="text-[10px] text-muted/60 italic mb-0.5 font-mono">
+				<div className="text-[10px] text-muted italic mb-0.5 font-mono">
 					# {comment}
 				</div>
 			)}
@@ -155,7 +146,7 @@ function YamlKeyList({
 				[{" "}
 				{values.map((v, i) => (
 					<span key={v}>
-						<span className="text-accent-blue/60">&quot;{v}&quot;</span>
+						<span className="text-accent-blue/70">&quot;{v}&quot;</span>
 						{i < values.length - 1 && <span className="text-muted">, </span>}
 					</span>
 				))}{" "}
@@ -165,16 +156,10 @@ function YamlKeyList({
 	);
 }
 
-// Character Sheet / Personality Metrics
 function SessionMetrics() {
 	const metrics = [
 		{ key: "AGE", value: "24 years", color: "text-foreground" },
 		{ key: "MBTI", value: "INTP", color: "text-foreground" },
-		// {
-		// 	key: "BUFFS",
-		// 	value: "Athletic / Gym (3x week)",
-		// 	color: "text-foreground",
-		// },
 		{ key: "LEVEL", value: "Year 1 Student @ SIT", color: "text-foreground" },
 		{
 			key: "ACTIVITY",
@@ -182,7 +167,6 @@ function SessionMetrics() {
 			color: "text-accent-blue font-semibold",
 		},
 	];
-
 	return (
 		<div className="space-y-2">
 			<div className="text-[9px] text-muted uppercase tracking-widest mb-3 font-mono">
@@ -194,37 +178,33 @@ function SessionMetrics() {
 						key={m.key}
 						className="flex font-mono text-[11px] leading-relaxed"
 					>
-						<span className="text-accent-blue/80 w-[72px] flex-shrink-0">
+						<span className="text-accent-blue/90 w-[72px] flex-shrink-0">
 							{m.key}
 						</span>
-						<span className="text-muted/40 mr-2">:</span>
+						<span className="text-muted/60 mr-2">:</span>
 						<span className={m.color}>{m.value}</span>
 					</div>
 				))}
 			</div>
-			{/* Terminal color palette standard dots */}
 			<div className="flex gap-1.5 pt-3" aria-hidden="true">
-				<span className="w-2.5 h-2.5 rounded-full bg-[#f38ba8] opacity-80" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#fab387] opacity-80" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#a6e3a1] opacity-80" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#94e2d5] opacity-80" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#89b4fa] opacity-80" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#cba6f7] opacity-80" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#f38ba8]" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#fab387]" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#a6e3a1]" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#94e2d5]" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#89b4fa]" />
+				<span className="w-2.5 h-2.5 rounded-full bg-[#cba6f7]" />
 			</div>
 		</div>
 	);
 }
 
-// Leetcode Component
 function LeetCodeStats() {
 	const [stats, setStats] = useState({
 		solved: "loading...",
 		ranking: "loading...",
 		acceptance: "loading...",
 	});
-
 	useEffect(() => {
-		// Fetching from your own internal Next.js API route now!
 		fetch("/api/leetcode")
 			.then((res) => res.json())
 			.then((data) => {
@@ -238,11 +218,10 @@ function LeetCodeStats() {
 					setStats({ solved: "err", ranking: "err", acceptance: "err" });
 				}
 			})
-			.catch(() => {
-				setStats({ solved: "err", ranking: "err", acceptance: "err" });
-			});
+			.catch(() =>
+				setStats({ solved: "err", ranking: "err", acceptance: "err" }),
+			);
 	}, []);
-
 	return (
 		<YamlSection header="leetcode">
 			<YamlKeyValue yamlKey="solved" value={stats.solved} />
@@ -251,8 +230,6 @@ function LeetCodeStats() {
 		</YamlSection>
 	);
 }
-
-// ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Hero() {
 	const handleCopyEmail = async (): Promise<void> => {
@@ -273,54 +250,74 @@ export default function Hero() {
 			className="py-10 md:py-14 px-4 sm:px-6 max-w-[1400px] mx-auto"
 			aria-label="Portfolio hero section"
 		>
-			{/* ── Layer 01: 3-Column Bento ────────────────────────────────── */}
 			<div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
-				{/* Col 1 — Terminal / Bio (3 cols) */}
-				<div className="card-glow bg-card-bg md:col-span-3 rounded-r-lg border-[0.5px] border-border border-l-2 border-l-accent-lavender overflow-hidden font-mono flex flex-col">
-					{/* Terminal header */}
-					<div className="flex items-center justify-between px-3 py-2 bg-background/40 border-b border-border/50 gap-2 flex-shrink-0">
+				{/* Col 1 — Terminal card */}
+				<div className="glass-card md:col-span-3 rounded-r-lg border-l-2 border-l-accent-lavender overflow-hidden font-mono flex flex-col">
+					<div className="flex items-center justify-between px-3 py-2 bg-background/40 border-b border-border/40 gap-2 flex-shrink-0">
 						<div
 							className="flex items-center gap-1.5 flex-shrink-0"
 							aria-hidden="true"
 						>
-							<span className="w-2 h-2 rounded-full bg-border" />
-							<span className="w-2 h-2 rounded-full bg-border" />
-							<span className="w-2 h-2 rounded-full bg-border" />
+							<span
+								className="w-2.5 h-2.5 rounded-full"
+								style={{ background: "#f38ba8" }}
+							/>
+							<span
+								className="w-2.5 h-2.5 rounded-full"
+								style={{ background: "#f9e2af" }}
+							/>
+							<span
+								className="w-2.5 h-2.5 rounded-full"
+								style={{ background: "#a6e3a1" }}
+							/>
 						</div>
 						<span className="text-[10px] text-muted tracking-wide flex-shrink-0 hidden sm:block">
 							zade@portfolio:~
 						</span>
-						<StatusBadge config={STATUS} />
+						<div className="flex items-center gap-2 flex-shrink-0">
+							<StatusBadge config={STATUS} />
+						</div>
 					</div>
 
-					<div className="p-4 space-y-4 flex-1 flex flex-col">
-						<div>
-							<div className="text-[10px] text-muted/60 mb-0.5">
-								$ cat name.txt
+					<div className="p-4 flex-1 flex flex-col">
+						<div className="mb-6">
+							<div className="text-[10px] font-semibold mb-0.5">
+								<span className="text-muted">zade@portfolio</span>
+								<span className="text-muted/70">:~$ </span>
+								<span className="text-accent-lavender">cat name.txt</span>
 							</div>
 							<div className="text-sm font-semibold text-accent-lavender">
 								Erfan Mohan (Zade)
 							</div>
 						</div>
-						<div>
-							<div className="text-[10px] text-muted/60 mb-0.5">
-								$ cat education.txt
+
+						<div className="mb-6">
+							<div className="text-[10px] font-semibold mb-0.5">
+								<span className="text-muted">zade@portfolio</span>
+								<span className="text-muted/70">:~$ </span>
+								<span className="text-accent-lavender">cat education.txt</span>
 							</div>
 							<div className="text-[11px] text-foreground">
 								SIT Applied Computing Fintech
 							</div>
 						</div>
-						<div>
-							<div className="text-[10px] text-muted/60 mb-0.5">
-								$ cat role.txt
+
+						<div className="mb-6">
+							<div className="text-[10px] font-semibold mb-0.5">
+								<span className="text-muted">zade@portfolio</span>
+								<span className="text-muted/70">:~$ </span>
+								<span className="text-accent-lavender">cat role.txt</span>
 							</div>
 							<div className="text-[11px] text-foreground">
 								Aspiring Backend Engineer
 							</div>
 						</div>
-						<div>
-							<div className="text-[10px] text-muted/60 mb-0.5">
-								$ cat building.txt
+
+						<div className="mb-6">
+							<div className="text-[10px] font-semibold mb-0.5">
+								<span className="text-muted">zade@portfolio</span>
+								<span className="text-muted/70">:~$ </span>
+								<span className="text-accent-lavender">cat building.txt</span>
 							</div>
 							<div className="text-[11px] text-foreground flex items-center flex-wrap gap-1">
 								Something cool hopefully...
@@ -328,34 +325,31 @@ export default function Hero() {
 							</div>
 						</div>
 
-						{/* Injected SessionMetrics block replacing NeofetchBlock */}
-						<div className="border-t border-border/20 pt-4 mt-auto">
+						<div className="border-t border-border/30 pt-4 mt-auto">
 							<SessionMetrics />
 						</div>
 					</div>
 				</div>
 
-				{/* Col 2 — About Me (6 cols) */}
-				<div className="card-glow border-[0.5px] border-border rounded-lg bg-card-bg md:col-span-6 font-mono">
+				{/* Col 2 — About Me */}
+				<div className="glass-card rounded-lg md:col-span-6 font-mono">
 					<div className="p-4 sm:p-5 flex flex-col h-full">
 						<div className="text-[9px] text-muted uppercase tracking-widest mb-4">
 							about_me.txt
 						</div>
-
 						<div className="space-y-2.5 mb-4">
 							{ABOUT_ROWS.map(({ key, value }) => (
 								<div
 									key={key}
 									className="flex flex-col sm:flex-row sm:gap-2 text-[11px] leading-relaxed"
 								>
-									<span className="text-accent-blue/80 flex-shrink-0 sm:w-28">
+									<span className="text-accent-blue/90 flex-shrink-0 sm:w-28">
 										{key}
 									</span>
 									<span className="text-foreground pl-2 sm:pl-0">{value}</span>
 								</div>
 							))}
 						</div>
-
 						<div className="border-t border-border/30 pt-3 mb-4">
 							<p className="text-[11px] text-muted leading-relaxed italic">
 								I prefer understanding systems deeply before adding
@@ -364,7 +358,6 @@ export default function Hero() {
 								and well-designed interfaces over clever solutions.
 							</p>
 						</div>
-
 						<div className="mt-auto border-t border-border/30 pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div>
 								<div className="text-[9px] text-muted uppercase tracking-widest mb-1">
@@ -382,26 +375,26 @@ export default function Hero() {
 									Interests
 								</div>
 								<div className="text-[11px] text-foreground">
-									Backend · DevOps · SRE ·Fintech
+									Backend · DevOps · SRE · Fintech
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				{/* Col 3 — System Info: Time + Theme stacked (3 cols) */}
+				{/* Col 3 — Time + Theme */}
 				<div className="md:col-span-3 grid grid-cols-2 gap-4 md:grid-cols-1 md:flex md:flex-col">
-					<div className="card-glow border-[0.5px] border-border rounded-lg bg-card-bg p-4 font-mono flex-shrink-0">
+					<div className="glass-card rounded-lg p-4 font-mono flex-shrink-0">
 						<TimeDisplay />
 					</div>
-					<div className="card-glow border-[0.5px] border-border rounded-lg bg-card-bg p-4 font-mono flex-1">
+					<div className="glass-card rounded-lg p-4 font-mono flex-1">
 						<ThemeSwitcher />
 					</div>
 				</div>
 			</div>
 
-			{/* ── Layer 02: YAML Stack Manifest ─────────────────────────── */}
-			<div className="card-glow border-[0.5px] border-border rounded-lg bg-card-bg p-4 sm:p-5 mb-4 font-mono">
+			{/* YAML Stack Manifest */}
+			<div className="glass-card rounded-lg p-4 sm:p-5 mb-4 font-mono">
 				<div className="flex items-center justify-between mb-4 pb-3 border-b border-border/30">
 					<div className="flex items-center gap-2">
 						<span
@@ -416,9 +409,7 @@ export default function Hero() {
 						stack.manifest.yml
 					</span>
 				</div>
-
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-					{/* core_services */}
 					<div>
 						<YamlSection header="core_services" comment="primary tech stack">
 							{MANIFEST_CORE.map((row) => (
@@ -430,8 +421,6 @@ export default function Hero() {
 							))}
 						</YamlSection>
 					</div>
-
-					{/* runtime_env */}
 					<div className="md:border-l md:border-border/20 md:pl-6">
 						<YamlSection header="runtime_env" comment="local dev environment">
 							{MANIFEST_RUNTIME.map((row) => (
@@ -443,8 +432,6 @@ export default function Hero() {
 							))}
 						</YamlSection>
 					</div>
-
-					{/* experimental_learning */}
 					<div className="md:border-l md:border-border/20 md:pl-6">
 						<YamlSection header="experimental_learning" comment="in progress">
 							{MANIFEST_LEARNING.map((row) => (
@@ -455,23 +442,19 @@ export default function Hero() {
 								/>
 							))}
 						</YamlSection>
-
-						{/* leetcode inline */}
 						<div className="mt-3 border-t border-border/20 pt-3">
 							<div className="text-[9px] text-muted uppercase tracking-widest mb-1.5">
 								# live_metrics
 							</div>
-							{/* The new live component replaces the static YamlSection here */}
 							<LeetCodeStats />
 						</div>
 					</div>
 				</div>
 			</div>
 
-			{/* ── Connect Bar ────────────────────────────────────────────── */}
-			<div className="border-[0.5px] border-border/60 rounded-lg bg-card-bg px-4 sm:px-5 py-3 font-mono">
+			{/* Connect Bar */}
+			<div className="glass-card rounded-lg px-4 sm:px-5 py-3 font-mono">
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2">
-					{/* Socials */}
 					<div className="flex items-center gap-2 flex-wrap">
 						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
 							01_Socials
@@ -490,13 +473,10 @@ export default function Hero() {
 							))}
 						</div>
 					</div>
-
 					<div
 						className="hidden sm:block w-px h-5 bg-border/40 flex-shrink-0"
 						aria-hidden="true"
 					/>
-
-					{/* Assets */}
 					<div className="flex items-center gap-2 flex-wrap">
 						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
 							02_Assets
@@ -518,13 +498,10 @@ export default function Hero() {
 							</a>
 						</div>
 					</div>
-
 					<div
 						className="hidden sm:block w-px h-5 bg-border/40 flex-shrink-0"
 						aria-hidden="true"
 					/>
-
-					{/* Email */}
 					<div className="flex items-center gap-2 flex-wrap">
 						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
 							03_Email

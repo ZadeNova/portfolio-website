@@ -1,15 +1,11 @@
 import type { ReactElement } from "react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface FooterLink {
 	label: string;
 	href: string;
 	isExternal: boolean;
 	icon: ReactElement;
 }
-
-// ─── SVG Icons ────────────────────────────────────────────────────────────────
 
 const GitHubIcon = () => (
 	<svg
@@ -49,8 +45,6 @@ const EmailIcon = () => (
 	</svg>
 );
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
 const FOOTER_LINKS: FooterLink[] = [
 	{
 		label: "GitHub",
@@ -72,12 +66,9 @@ const FOOTER_LINKS: FooterLink[] = [
 	},
 ];
 
-// Build date — update this when you deploy
-const BUILD_DATE = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
 const PLATFORM = "VERCEL_EDGE";
 const FRAMEWORK = "NEXT.JS_16 + TAILWIND_4";
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Footer(): ReactElement {
 	const year = new Date().getFullYear();
@@ -87,36 +78,40 @@ export default function Footer(): ReactElement {
 			className="py-8 px-4 sm:px-6 max-w-[1400px] mx-auto"
 			aria-label="Site footer"
 		>
-			<div className="border-t border-border/30 pt-6">
-				{/* System pulse line */}
-				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 font-mono">
-					<div className="flex flex-wrap gap-x-5 gap-y-1 text-[10px] text-muted">
+			<div className="glass-card rounded-lg px-5 py-4">
+				{/* System status bar */}
+				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 pb-4 border-b border-border/20">
+					<div className="flex flex-wrap gap-x-5 gap-y-1 text-[10px] font-mono">
 						<span>
-							<span className="text-muted/50 mr-1">LAST_BUILD:</span>
-							<span className="text-accent-lavender">{BUILD_DATE}</span>
+							<span className="text-muted mr-1.5">LAST_BUILD:</span>
+							<span className="text-accent-lavender font-semibold">
+								{BUILD_DATE}
+							</span>
 						</span>
 						<span>
-							<span className="text-muted/50 mr-1">RUNNING_ON:</span>
-							<span className="text-accent-blue">{PLATFORM}</span>
+							<span className="text-muted mr-1.5">RUNNING_ON:</span>
+							<span className="text-accent-blue font-semibold">{PLATFORM}</span>
 						</span>
 						<span>
-							<span className="text-muted/50 mr-1">STACK:</span>
-							<span className="text-foreground/70">{FRAMEWORK}</span>
+							<span className="text-muted mr-1.5">STACK:</span>
+							<span className="text-foreground/80">{FRAMEWORK}</span>
 						</span>
 					</div>
-					<div className="flex items-center gap-1.5 text-[10px] text-muted">
+					<div className="flex items-center gap-1.5 text-[10px] font-mono">
 						<span
 							className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse flex-shrink-0"
 							aria-hidden="true"
 						/>
-						<span className="font-mono">SYSTEMS_NOMINAL</span>
+						<span className="text-green-400 font-semibold tracking-wide">
+							SYSTEMS_NOMINAL
+						</span>
 					</div>
 				</div>
 
 				{/* Links + copyright */}
 				<div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 					<nav aria-label="Footer navigation">
-						<ul className="flex items-center gap-5 list-none">
+						<ul className="flex items-center gap-6 list-none">
 							{FOOTER_LINKS.map((link) => (
 								<li key={link.label}>
 									<a
@@ -124,11 +119,11 @@ export default function Footer(): ReactElement {
 										{...(link.isExternal
 											? { target: "_blank", rel: "noopener noreferrer" }
 											: {})}
-										className="flex items-center gap-2 text-muted hover:text-accent-lavender transition-colors group"
+										className="flex items-center gap-2 text-muted hover:text-accent-lavender transition-colors duration-150 group"
 										aria-label={link.label}
 									>
 										<span className="transition-colors">{link.icon}</span>
-										<span className="text-[11px] font-mono hidden sm:block border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
+										<span className="text-[11px] font-mono border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
 											{link.label}
 										</span>
 									</a>
@@ -136,8 +131,7 @@ export default function Footer(): ReactElement {
 							))}
 						</ul>
 					</nav>
-
-					<p className="text-[11px] text-muted/50 font-mono text-center sm:text-right">
+					<p className="text-[11px] text-muted font-mono text-center sm:text-right">
 						© {year} Erfan Mohan — Built with Next.js &amp; Tailwind CSS
 					</p>
 				</div>
