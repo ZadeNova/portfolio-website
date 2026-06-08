@@ -29,22 +29,6 @@ const LinkedInIcon = () => (
 	</svg>
 );
 
-const EmailIcon = () => (
-	<svg
-		viewBox="0 0 24 24"
-		className="w-4 h-4"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-		strokeLinecap="round"
-		strokeLinejoin="round"
-		aria-hidden="true"
-	>
-		<rect x="2" y="4" width="20" height="16" rx="2" />
-		<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-	</svg>
-);
-
 const FOOTER_LINKS: FooterLink[] = [
 	{
 		label: "GitHub",
@@ -58,34 +42,46 @@ const FOOTER_LINKS: FooterLink[] = [
 		isExternal: true,
 		icon: <LinkedInIcon />,
 	},
-	{
-		label: "Email",
-		href: "mailto:your.email@example.com",
-		isExternal: false,
-		icon: <EmailIcon />,
-	},
 ];
 
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 const PLATFORM = "VERCEL_EDGE";
 const FRAMEWORK = "NEXT.JS_16 + TAILWIND_4";
+
+const GIT_SHA = process.env.NEXT_PUBLIC_GIT_SHA || "unknown";
+const GIT_DATE = process.env.NEXT_PUBLIC_GIT_DATE || new Date().toISOString();
+const GIT_MESSAGE = process.env.NEXT_PUBLIC_GIT_MESSAGE || "";
+
+function relativeTime(iso: string): string {
+	const diffMs = Date.now() - new Date(iso).getTime();
+	const mins = Math.floor(diffMs / 60_000);
+	if (mins < 1) return "just now";
+	if (mins < 60) return `${mins}m ago`;
+	const hours = Math.floor(mins / 60);
+	if (hours < 24) return `${hours}h ago`;
+	const days = Math.floor(hours / 24);
+	return `${days}d ago`;
+}
 
 export default function Footer(): ReactElement {
 	const year = new Date().getFullYear();
 
 	return (
 		<footer
+			id="contact"
 			className="py-8 px-4 sm:px-6 max-w-[1400px] mx-auto"
 			aria-label="Site footer"
 		>
 			<div className="glass-card rounded-lg px-5 py-4">
 				{/* System status bar */}
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 pb-4 border-b border-border/20">
-					<div className="flex flex-wrap gap-x-5 gap-y-1 text-[10px] font-mono">
-						<span>
-							<span className="text-muted mr-1.5">LAST_BUILD:</span>
+					<div className="flex flex-wrap gap-x-5 gap-y-1 text-[11px] font-mono">
+						<span title={GIT_MESSAGE || undefined}>
+							<span className="text-muted mr-1.5">DEPLOY:</span>
 							<span className="text-accent-lavender font-semibold">
-								{BUILD_DATE}
+								{GIT_SHA}
+							</span>
+							<span className="text-foreground/60 ml-1.5">
+								· {relativeTime(GIT_DATE)}
 							</span>
 						</span>
 						<span>
@@ -97,7 +93,7 @@ export default function Footer(): ReactElement {
 							<span className="text-foreground/80">{FRAMEWORK}</span>
 						</span>
 					</div>
-					<div className="flex items-center gap-1.5 text-[10px] font-mono">
+					<div className="flex items-center gap-1.5 text-[11px] font-mono">
 						<span
 							className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse flex-shrink-0"
 							aria-hidden="true"

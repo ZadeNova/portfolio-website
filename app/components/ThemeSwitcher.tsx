@@ -3,7 +3,7 @@
 import { useTheme } from "./ThemeProvider";
 
 const THEMES = [
-	{ id: "mocha", name: "Mocha", emoji: "🌿" },
+	{ id: "everforest-light", name: "Everforest Light", emoji: "🌲" },
 	{ id: "nord", name: "Nord", emoji: "❄️" },
 	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
 	{ id: "rosepine", name: "Rosé Pine", emoji: "🌸" },
@@ -18,7 +18,7 @@ export default function ThemeSwitcher() {
 
 	return (
 		<div className="flex flex-col h-full">
-			<div className="text-[9px] text-muted uppercase tracking-widest mb-3 font-mono">
+			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
 				Theme
 			</div>
 			<div className="flex flex-col gap-2">

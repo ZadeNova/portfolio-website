@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -170,25 +171,25 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 					<span className="text-[11px] text-muted/50 font-bold font-mono flex-shrink-0 w-6 tabular-nums">
 						{cardNumber}
 					</span>
-					<span className="text-[13px] font-semibold text-accent-lavender flex-shrink-0 min-w-[160px] font-sans group-hover:opacity-90 transition-opacity">
+					<span className="text-[15px] font-semibold text-accent-lavender flex-shrink-0 min-w-[160px] font-sans group-hover:opacity-90 transition-opacity">
 						{project.name}
 					</span>
 					<div className="flex gap-1.5 flex-wrap flex-1 min-w-0">
 						{project.tags.slice(0, 5).map((tag) => (
 							<span
 								key={tag.name}
-								className={`text-[8px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
+								className={`text-[11px] border-[0.5px] rounded px-2 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
 							>
 								{tag.name}
 							</span>
 						))}
 						{project.tags.length > 5 && (
-							<span className="text-[8px] text-muted font-mono">
+							<span className="text-[11px] text-muted font-mono">
 								+{project.tags.length - 5}
 							</span>
 						)}
 					</div>
-					<span className="text-[10px] text-muted/60 font-mono flex-shrink-0 hidden lg:block max-w-[260px] truncate">
+					<span className="text-[11px] text-muted/60 font-mono flex-shrink-0 hidden lg:block max-w-[260px] truncate">
 						{project.description.slice(0, 72)}…
 					</span>
 					<div className="flex items-center gap-2 ml-3 flex-shrink-0 text-muted/50">
@@ -234,10 +235,10 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 							className="p-4 md:p-5"
 							style={{ borderRight: "0.5px solid var(--glass-border)" }}
 						>
-							<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-3">
+							<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-3">
 								Overview
 							</div>
-							<p className="text-[12px] text-foreground/80 leading-relaxed font-sans">
+							<p className="text-[13px] text-foreground/80 leading-relaxed font-sans">
 								{project.description}
 							</p>
 						</div>
@@ -245,11 +246,11 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 						{/* Right — learned + tags + links */}
 						<div className="p-4 md:p-5 flex flex-col gap-4">
 							<div>
-								<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2">
+								<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-2">
 									Learned
 								</div>
 								<div
-									className="rounded p-3 text-[11px] leading-relaxed font-sans"
+									className="rounded p-3 text-[13px] leading-relaxed font-sans"
 									style={{
 										background: "var(--glass-tint)",
 										border: "0.5px solid var(--glass-border)",
@@ -262,14 +263,14 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 							</div>
 
 							<div>
-								<div className="text-[9px] text-muted/60 uppercase tracking-widest mb-2">
+								<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-2">
 									Stack
 								</div>
 								<div className="flex flex-wrap gap-1.5">
 									{project.tags.map((tag) => (
 										<span
 											key={tag.name}
-											className={`text-[9px] border-[0.5px] rounded px-2 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
+											className={`text-[11px] border-[0.5px] rounded px-2 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
 										>
 											{tag.name}
 										</span>
@@ -283,7 +284,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 										href={project.repoUrl}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="flex items-center gap-1.5 text-[9px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
+										className="flex items-center gap-1.5 text-[11px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
 									>
 										<GitHubIcon />
 										Source
@@ -294,7 +295,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 										href={project.liveUrl}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="flex items-center gap-1.5 text-[9px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
+										className="flex items-center gap-1.5 text-[11px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
 									>
 										<ExternalLinkIcon />
 										Live
@@ -329,14 +330,14 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 			</span>
 			<div className="relative p-4 flex flex-col h-full">
 				<div className="flex items-start justify-between gap-2 mb-3">
-					<h3 className="text-[14px] font-semibold text-accent-lavender leading-tight font-sans">
+					<h3 className="text-[15px] font-semibold text-accent-lavender leading-tight font-sans">
 						{project.name}
 					</h3>
 					<div className="flex flex-wrap justify-end gap-1 max-w-[45%]">
 						{project.tags.slice(0, 4).map((tag) => (
 							<span
 								key={tag.name}
-								className={`text-[8px] border-[0.5px] rounded px-1.5 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
+								className={`text-[11px] border-[0.5px] rounded px-2 py-0.5 uppercase tracking-wide font-mono ${TAG_STYLES[tag.category]}`}
 							>
 								{tag.name}
 							</span>
@@ -344,12 +345,12 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 					</div>
 				</div>
 
-				<p className="text-[11px] text-foreground/75 leading-relaxed mb-4 font-sans">
+				<p className="text-[13px] text-foreground/75 leading-relaxed mb-4 font-sans">
 					{project.description}
 				</p>
 
 				<div
-					className="rounded p-3 mb-4 text-[11px] leading-relaxed font-sans"
+					className="rounded p-3 mb-4 text-[13px] leading-relaxed font-sans"
 					style={{
 						background: "var(--glass-tint)",
 						border: "0.5px solid var(--glass-border)",
@@ -357,7 +358,7 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 					}}
 				>
 					<span
-						className="text-[9px] uppercase tracking-widest font-mono mr-2"
+						className="text-[11px] uppercase tracking-widest font-mono mr-2"
 						style={{ color: "var(--muted)", opacity: 0.6 }}
 					>
 						Learned:
@@ -372,7 +373,7 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 								href={project.repoUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="flex items-center gap-1.5 text-[9px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
+								className="flex items-center gap-1.5 text-[11px] font-mono text-accent-lavender border-[0.5px] border-accent-lavender/30 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors tracking-wide uppercase"
 							>
 								<GitHubIcon />
 								Source
@@ -383,7 +384,7 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 								href={project.liveUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="flex items-center gap-1.5 text-[9px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
+								className="flex items-center gap-1.5 text-[11px] font-mono text-accent-blue border-[0.5px] border-accent-blue/30 rounded px-2.5 py-1.5 hover:bg-accent-blue/10 transition-colors tracking-wide uppercase"
 							>
 								<ExternalLinkIcon />
 								Live
@@ -405,6 +406,28 @@ export default function Projects() {
 
 	const filtered = PROJECTS.filter((p) => p.filters.includes(activeFilter));
 	const displayed = showAll ? filtered : filtered.slice(0, 3);
+
+	const filterCounts = Object.fromEntries(
+		FILTERS.map((f) => [
+			f,
+			f === "ALL"
+				? PROJECTS.length
+				: PROJECTS.filter((p) => p.filters.includes(f)).length,
+		]),
+	) as Record<FilterTag, number>;
+
+	const rowVariants = {
+		hidden: { opacity: 0, y: 12 },
+		visible: (i: number) => ({
+			opacity: 1,
+			y: 0,
+			transition: {
+				duration: 0.45,
+				delay: i * 0.08,
+				ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+			},
+		}),
+	};
 
 	const handleToggle = (index: number) => {
 		setExpandedIndex((prev) => (prev === index ? null : index));
@@ -437,7 +460,13 @@ export default function Projects() {
 			aria-label="Projects section"
 		>
 			{/* Header */}
-			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+			<motion.div
+				className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4"
+				initial={{ opacity: 0, y: -8 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.4, ease: "easeOut" }}
+			>
 				<div className="flex items-center gap-2">
 					<span
 						className="w-2 h-2 rounded-full bg-accent-lavender animate-pulse"
@@ -446,19 +475,35 @@ export default function Projects() {
 					<h2 className="text-[11px] font-bold text-foreground uppercase tracking-[0.15em] font-mono">
 						PROJECTS
 					</h2>
-					<span className="text-[10px] text-muted font-mono ml-2">
-						{filtered.length} MODULES INDEXED
+					<span className="text-[11px] text-muted font-mono ml-2 inline-flex items-center gap-1">
+						<AnimatePresence mode="wait">
+							<motion.span
+								key={filtered.length}
+								initial={{ opacity: 0, y: -4 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: 4 }}
+								transition={{ duration: 0.15 }}
+								className="text-accent-lavender font-semibold"
+							>
+								{filtered.length}
+							</motion.span>
+						</AnimatePresence>
+						MODULES INDEXED
 					</span>
 				</div>
 
 				{/* Filter bar — glass pills */}
-				<div className="flex gap-1.5" role="group" aria-label="Filter projects">
+				<div
+					className="flex gap-1.5 overflow-x-auto sm:overflow-visible flex-nowrap -mx-1 px-1 sm:mx-0 sm:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+					role="group"
+					aria-label="Filter projects"
+				>
 					{FILTERS.map((f) => (
 						<button
 							key={f}
 							onClick={() => handleFilterChange(f)}
 							aria-pressed={activeFilter === f}
-							className={`text-[9px] px-3 py-1.5 rounded-full border-[0.5px] uppercase tracking-widest font-mono transition-all duration-150 backdrop-blur-sm ${
+							className={`shrink-0 text-[11px] px-3 py-1.5 rounded-full border-[0.5px] uppercase tracking-widest font-mono transition-all duration-150 backdrop-blur-sm ${
 								activeFilter === f
 									? "bg-accent-lavender/20 text-accent-lavender border-accent-lavender/50 font-bold"
 									: "text-muted border-border/50 hover:text-accent-lavender hover:border-accent-lavender/30"
@@ -467,30 +512,46 @@ export default function Projects() {
 								background: activeFilter === f ? undefined : "var(--glass-bg)",
 							}}
 						>
-							{f}
+							{f} ({filterCounts[f]})
 						</button>
 					))}
 				</div>
-			</div>
+			</motion.div>
 
 			{/* ── Desktop: accordion list ──────────────────────────────────── */}
 			<div className="hidden md:block">
-				<div className="flex flex-col gap-2">
-					{displayed.map((project, idx) => (
-						<DesktopRow
-							key={project.name}
-							project={project}
-							index={idx}
-							isExpanded={expandedIndex === idx}
-							onToggle={() => handleToggle(idx)}
-						/>
-					))}
-				</div>
+				<AnimatePresence mode="sync">
+					<motion.div
+						key={activeFilter + String(showAll)}
+						className="flex flex-col gap-2"
+						initial="hidden"
+						animate="visible"
+						exit={{ opacity: 0, transition: { duration: 0.15 } }}
+					>
+						{displayed.map((project, idx) => (
+							<motion.div
+								key={project.name}
+								variants={rowVariants}
+								custom={idx}
+								initial="hidden"
+								whileInView="visible"
+								viewport={{ once: true, margin: "-40px" }}
+							>
+								<DesktopRow
+									project={project}
+									index={idx}
+									isExpanded={expandedIndex === idx}
+									onToggle={() => handleToggle(idx)}
+								/>
+							</motion.div>
+						))}
+					</motion.div>
+				</AnimatePresence>
 
 				{filtered.length > 3 && (
 					<button
 						onClick={() => setShowAll((s) => !s)}
-						className="w-full mt-3 py-2 text-[10px] font-mono text-muted border-[0.5px] border-dashed rounded hover:text-accent-lavender hover:border-accent-lavender/40 transition-colors tracking-widest uppercase"
+						className="w-full mt-3 py-2 text-[11px] font-mono text-muted border-[0.5px] border-dashed rounded hover:text-accent-lavender hover:border-accent-lavender/40 transition-colors tracking-widest uppercase"
 						style={{ borderColor: "var(--glass-border)" }}
 					>
 						{showAll
@@ -501,7 +562,13 @@ export default function Projects() {
 			</div>
 
 			{/* ── Mobile: snap scroll carousel ─────────────────────────────── */}
-			<div className="md:hidden">
+			<motion.div
+				className="md:hidden"
+				initial={{ opacity: 0, y: 10 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.5, ease: "easeOut" }}
+			>
 				<div
 					ref={scrollRef}
 					className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3"
@@ -530,7 +597,7 @@ export default function Projects() {
 						/>
 					))}
 				</div>
-			</div>
+			</motion.div>
 		</section>
 	);
 }

@@ -2,7 +2,9 @@
 
 import TimeDisplay from "./TimeDisplay";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { useState, useEffect } from "react";
+import { Skeleton } from "./Skeleton";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
 
 type StatusVariant = "open" | "interning" | "unavailable";
 interface StatusConfig {
@@ -38,14 +40,6 @@ const MANIFEST_CORE = [
 	{ key: "ops", values: ["docker", "linux", "bash", "git"] },
 ];
 
-const MANIFEST_RUNTIME = [
-	{ key: "os_primary", value: "fedora linux" },
-	{ key: "os_secondary", value: "linux mint" },
-	{ key: "os_tertiary", value: "windows 11" },
-	{ key: "shell", value: "bash" },
-	{ key: "environment", value: "kde plasma" },
-];
-
 const MANIFEST_LEARNING = [
 	{ key: "active", values: ["Golang"] },
 	{ key: "next_queue", values: ["AWS", "terraform", "kubernetes"] },
@@ -58,7 +52,89 @@ const SOCIALS: Social[] = [
 ];
 
 const RESUME_URL = "/resume.pdf";
-const EMAIL = "your.email@example.com";
+
+const SCRAMBLE_CHARS = "!@#$%^&*_+X0<>?/\\|";
+
+function useScramble(originalText: string) {
+	const [displayText, setDisplayText] = useState(originalText);
+	const [isScrambling, setIsScrambling] = useState(false);
+	const rafRef = useRef<number | null>(null);
+	const startRef = useRef<number>(0);
+	const HOLD = 80;
+	const DURATION = 300;
+
+	const scramble = useCallback(() => {
+		if (rafRef.current) cancelAnimationFrame(rafRef.current);
+		startRef.current = Date.now();
+		setIsScrambling(true);
+		const tick = () => {
+			const elapsed = Date.now() - startRef.current;
+			if (elapsed < HOLD) {
+				setDisplayText(
+					originalText
+						.split("")
+						.map((ch) => {
+							if (ch === " ") return " ";
+							return SCRAMBLE_CHARS[
+								Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+							];
+						})
+						.join(""),
+				);
+				rafRef.current = requestAnimationFrame(tick);
+				return;
+			}
+			const progress = Math.min((elapsed - HOLD) / (DURATION - HOLD), 1);
+			const revealed = Math.floor(progress * originalText.length);
+			setDisplayText(
+				originalText
+					.split("")
+					.map((ch, i) => {
+						if (ch === " ") return " ";
+						if (i < revealed) return ch;
+						return SCRAMBLE_CHARS[
+							Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+						];
+					})
+					.join(""),
+			);
+			if (progress < 1) {
+				rafRef.current = requestAnimationFrame(tick);
+			} else {
+				setIsScrambling(false);
+			}
+		};
+		rafRef.current = requestAnimationFrame(tick);
+	}, [originalText]);
+
+	const reset = useCallback(() => {
+		if (rafRef.current) cancelAnimationFrame(rafRef.current);
+		setDisplayText(originalText);
+		setIsScrambling(false);
+	}, [originalText]);
+
+	useEffect(
+		() => () => {
+			if (rafRef.current) cancelAnimationFrame(rafRef.current);
+		},
+		[],
+	);
+
+	return { displayText, isScrambling, scramble, reset };
+}
+
+function ScrambleText({ text }: { text: string }) {
+	const { displayText, isScrambling, scramble, reset } = useScramble(text);
+	return (
+		<span
+			onMouseEnter={scramble}
+			onMouseLeave={reset}
+			className={isScrambling ? "scramble-active" : "scramble-idle"}
+		>
+			{displayText}
+		</span>
+	);
+}
 
 function StatusBadge({ config }: { config: StatusConfig }) {
 	const dotColor: Record<StatusVariant, string> = {
@@ -78,7 +154,7 @@ function StatusBadge({ config }: { config: StatusConfig }) {
 				aria-hidden="true"
 			/>
 			<span
-				className={`text-[10px] font-mono truncate ${textColor[config.variant]}`}
+				className={`text-[11px] font-mono truncate ${textColor[config.variant]}`}
 			>
 				{config.label}
 			</span>
@@ -107,7 +183,7 @@ function YamlSection({
 	return (
 		<div className="mb-3">
 			{comment && (
-				<div className="text-[10px] text-muted italic mb-0.5 font-mono">
+				<div className="text-[11px] text-muted italic mb-0.5 font-mono">
 					# {comment}
 				</div>
 			)}
@@ -115,17 +191,6 @@ function YamlSection({
 				{header}:
 			</div>
 			<div className="pl-3 space-y-0.5">{children}</div>
-		</div>
-	);
-}
-
-function YamlKeyValue({ yamlKey, value }: { yamlKey: string; value: string }) {
-	return (
-		<div className="flex gap-x-2 font-mono text-[11px] leading-relaxed flex-wrap">
-			<span className="text-accent-blue/80 flex-shrink-0 min-w-[100px]">
-				{yamlKey}:
-			</span>
-			<span className="text-foreground">{value}</span>
 		</div>
 	);
 }
@@ -146,7 +211,9 @@ function YamlKeyList({
 				[{" "}
 				{values.map((v, i) => (
 					<span key={v}>
-						<span className="text-accent-blue/70">&quot;{v}&quot;</span>
+						<span className="text-accent-blue/70">
+							&quot;<ScrambleText text={v} />&quot;
+						</span>
 						{i < values.length - 1 && <span className="text-muted">, </span>}
 					</span>
 				))}{" "}
@@ -158,9 +225,9 @@ function YamlKeyList({
 
 function SessionMetrics() {
 	const metrics = [
-		{ key: "AGE", value: "24 years", color: "text-foreground" },
-		{ key: "MBTI", value: "INTP", color: "text-foreground" },
-		{ key: "LEVEL", value: "Year 1 Student @ SIT", color: "text-foreground" },
+		{ key: "AGE", value: "24 years", color: "text-muted" },
+		{ key: "MBTI", value: "INTP", color: "text-muted" },
+		{ key: "LEVEL", value: "Year 1 Student @ SIT", color: "text-muted" },
 		{
 			key: "ACTIVITY",
 			value: "Currently trying to survive SIT",
@@ -169,7 +236,7 @@ function SessionMetrics() {
 	];
 	return (
 		<div className="space-y-2">
-			<div className="text-[9px] text-muted uppercase tracking-widest mb-3 font-mono">
+			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
 				SESSION_METRICS
 			</div>
 			<div className="space-y-1.5">
@@ -198,61 +265,210 @@ function SessionMetrics() {
 	);
 }
 
-function LeetCodeStats() {
-	const [stats, setStats] = useState({
-		solved: "loading...",
-		ranking: "loading...",
-		acceptance: "loading...",
-	});
+function TerminalTypingRows({
+	rows,
+	reducedMotion,
+}: {
+	rows: { key: string; value: string }[];
+	reducedMotion: boolean;
+}) {
+	const [completedRows, setCompletedRows] = useState(0);
+	const [currentChar, setCurrentChar] = useState(0);
+	const CHAR_DELAY = 22;
+	const ROW_PAUSE = 180;
+
 	useEffect(() => {
-		fetch("/api/leetcode")
+		if (reducedMotion || completedRows >= rows.length) return;
+		const value = rows[completedRows].value;
+		if (currentChar < value.length) {
+			const t = setTimeout(() => setCurrentChar((c) => c + 1), CHAR_DELAY);
+			return () => clearTimeout(t);
+		}
+		const t = setTimeout(() => {
+			setCompletedRows((r) => r + 1);
+			setCurrentChar(0);
+		}, ROW_PAUSE);
+		return () => clearTimeout(t);
+	}, [completedRows, currentChar, rows, reducedMotion]);
+
+	if (reducedMotion) {
+		return (
+			<div className="space-y-2.5 mb-4">
+				{rows.map(({ key, value }) => (
+					<div
+						key={key}
+						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
+					>
+						<span className="text-[11px] text-accent-blue/90 flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-[13px] text-foreground pl-2 sm:pl-0">{value}</span>
+					</div>
+				))}
+			</div>
+		);
+	}
+
+	return (
+		<div className="space-y-2.5 mb-4">
+			{rows.map(({ key, value }, i) => {
+				if (i > completedRows) return null;
+				const isTyping = i === completedRows;
+				const display = isTyping ? value.slice(0, currentChar) : value;
+				return (
+					<div
+						key={key}
+						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
+					>
+						<span className="text-[11px] text-accent-blue/90 flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-[13px] text-foreground pl-2 sm:pl-0">
+							{display}
+							{isTyping && <span className="cursor-blink" aria-hidden="true" />}
+						</span>
+					</div>
+				);
+			})}
+		</div>
+	);
+}
+
+// GitHub's official linguist colors (github/linguist colors.yml) — these are
+// tuned to read clearly on both GitHub's light and dark UIs, so they hold up
+// across our light and dark themes too. Anything not in the map (including
+// the aggregated "other" bucket) falls back to the theme's --muted token so
+// it always blends with whichever palette is active instead of clashing.
+const GITHUB_LANG_COLORS: Record<string, string> = {
+	Python: "#3572A5",
+	JavaScript: "#f1e05a",
+	TypeScript: "#3178c6",
+	HTML: "#e34c26",
+	CSS: "#563d7c",
+	SCSS: "#c6538c",
+	"C#": "#178600",
+	C: "#555555",
+	"C++": "#f34b7d",
+	Java: "#b07219",
+	Go: "#00ADD8",
+	Shell: "#89e051",
+	Dockerfile: "#384d54",
+	PHP: "#4F5D95",
+	Ruby: "#701516",
+	Rust: "#dea584",
+	Vue: "#41b883",
+	Makefile: "#427819",
+	PowerShell: "#012456",
+	"Jupyter Notebook": "#DA5B0B",
+};
+
+function langColor(name: string): string {
+	return GITHUB_LANG_COLORS[name] ?? "var(--muted)";
+}
+
+function LanguageBreakdownBar() {
+	const reducedMotion = !!useReducedMotion();
+	const ref = useRef<HTMLDivElement>(null);
+	const inView = useInView(ref, { once: true });
+	const [breakdown, setBreakdown] = useState<
+		{ name: string; percent: number }[] | null
+	>(null);
+	const [error, setError] = useState(false);
+
+	useEffect(() => {
+		fetch("/api/github/languages")
 			.then((res) => res.json())
 			.then((data) => {
-				if (data.status === "success") {
-					setStats({
-						solved: data.totalSolved.toString(),
-						ranking: data.ranking.toLocaleString(),
-						acceptance: `${data.acceptanceRate}%`,
-					});
-				} else {
-					setStats({ solved: "err", ranking: "err", acceptance: "err" });
-				}
+				if (data.status === "success") setBreakdown(data.breakdown);
+				else setError(true);
 			})
-			.catch(() =>
-				setStats({ solved: "err", ranking: "err", acceptance: "err" }),
-			);
+			.catch(() => setError(true));
 	}, []);
+
 	return (
-		<YamlSection header="leetcode">
-			<YamlKeyValue yamlKey="solved" value={stats.solved} />
-			<YamlKeyValue yamlKey="ranking" value={stats.ranking} />
-			<YamlKeyValue yamlKey="acceptance" value={stats.acceptance} />
-		</YamlSection>
+		<div ref={ref} className="mt-3 border-t border-border/20 pt-3">
+			<div className="text-[11px] text-muted uppercase tracking-widest mb-1.5">
+				# language_breakdown (live, by bytes)
+			</div>
+			{error ? (
+				<div className="text-[11px] text-muted font-mono">unavailable</div>
+			) : !breakdown ? (
+				<div>
+					<Skeleton className="h-2 w-full rounded-full" />
+					<div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+						{[0, 1, 2, 3].map((i) => (
+							<span key={i} className="flex items-center gap-1.5">
+								<Skeleton className="w-2 h-2 rounded-full" />
+								<Skeleton className="h-2.5 w-14" />
+							</span>
+						))}
+					</div>
+				</div>
+			) : (
+				<div>
+					<div className="flex h-2 rounded-full overflow-hidden bg-border/20">
+						{breakdown.map((lang, i) => (
+							<motion.div
+								key={lang.name}
+								className="h-full"
+								style={{ backgroundColor: langColor(lang.name) }}
+								initial={{ width: 0 }}
+								animate={inView ? { width: `${lang.percent}%` } : { width: 0 }}
+								transition={
+									reducedMotion
+										? { duration: 0 }
+										: { duration: 0.8, delay: i * 0.08, ease: "easeOut" }
+								}
+							/>
+						))}
+					</div>
+					<div className="flex flex-wrap gap-x-3 gap-y-1 mt-2">
+						{breakdown.map((lang) => (
+							<div
+								key={lang.name}
+								className="flex items-center gap-1.5 font-mono text-[11px]"
+							>
+								<span
+									className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+									style={{ backgroundColor: langColor(lang.name) }}
+									aria-hidden="true"
+								/>
+								<span className="text-foreground/80">{lang.name}</span>
+								<span className="text-muted">{lang.percent.toFixed(1)}%</span>
+							</div>
+						))}
+					</div>
+				</div>
+			)}
+		</div>
 	);
 }
 
 export default function Hero() {
-	const handleCopyEmail = async (): Promise<void> => {
-		try {
-			await navigator.clipboard.writeText(EMAIL);
-		} catch {
-			const el = document.createElement("textarea");
-			el.value = EMAIL;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand("copy");
-			document.body.removeChild(el);
-		}
+	const shouldReduceMotion = useReducedMotion();
+
+	const panelVariants = {
+		hidden: { opacity: 0, y: 18 },
+		visible: (delay: number) => ({
+			opacity: 1,
+			y: 0,
+			transition: shouldReduceMotion
+				? { duration: 0 }
+				: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
+		}),
 	};
 
 	return (
 		<section
+			id="home"
 			className="py-10 md:py-14 px-4 sm:px-6 max-w-[1400px] mx-auto"
 			aria-label="Portfolio hero section"
 		>
 			<div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
 				{/* Col 1 — Terminal card */}
-				<div className="glass-card md:col-span-3 rounded-r-lg border-l-2 border-l-accent-lavender overflow-hidden font-mono flex flex-col">
+				<motion.div
+					className="glass-card md:col-span-3 rounded-r-lg border-l-2 border-l-accent-lavender overflow-hidden font-mono flex flex-col"
+					variants={panelVariants}
+					initial="hidden"
+					animate="visible"
+					custom={0}
+				>
 					<div className="flex items-center justify-between px-3 py-2 bg-background/40 border-b border-border/40 gap-2 flex-shrink-0">
 						<div
 							className="flex items-center gap-1.5 flex-shrink-0"
@@ -271,7 +487,7 @@ export default function Hero() {
 								style={{ background: "#a6e3a1" }}
 							/>
 						</div>
-						<span className="text-[10px] text-muted tracking-wide flex-shrink-0 hidden sm:block">
+						<span className="text-[11px] text-muted tracking-wide flex-shrink-0 hidden sm:block">
 							zade@portfolio:~
 						</span>
 						<div className="flex items-center gap-2 flex-shrink-0">
@@ -280,48 +496,33 @@ export default function Hero() {
 					</div>
 
 					<div className="p-4 flex-1 flex flex-col">
-						<div className="mb-6">
-							<div className="text-[10px] font-semibold mb-0.5">
-								<span className="text-muted">zade@portfolio</span>
-								<span className="text-muted/70">:~$ </span>
-								<span className="text-accent-lavender">cat name.txt</span>
-							</div>
-							<div className="text-sm font-semibold text-accent-lavender">
+						<div className="mb-5">
+							<div className="text-base font-semibold text-accent-lavender leading-snug">
 								Erfan Mohan (Zade)
 							</div>
-						</div>
-
-						<div className="mb-6">
-							<div className="text-[10px] font-semibold mb-0.5">
-								<span className="text-muted">zade@portfolio</span>
-								<span className="text-muted/70">:~$ </span>
-								<span className="text-accent-lavender">cat education.txt</span>
-							</div>
-							<div className="text-[11px] text-foreground">
-								SIT Applied Computing Fintech
-							</div>
-						</div>
-
-						<div className="mb-6">
-							<div className="text-[10px] font-semibold mb-0.5">
-								<span className="text-muted">zade@portfolio</span>
-								<span className="text-muted/70">:~$ </span>
-								<span className="text-accent-lavender">cat role.txt</span>
-							</div>
-							<div className="text-[11px] text-foreground">
+							<div className="text-[13px] text-foreground font-medium mt-1">
 								Aspiring Backend Engineer
 							</div>
 						</div>
 
-						<div className="mb-6">
-							<div className="text-[10px] font-semibold mb-0.5">
-								<span className="text-muted">zade@portfolio</span>
-								<span className="text-muted/70">:~$ </span>
-								<span className="text-accent-lavender">cat building.txt</span>
+						<div className="space-y-3.5">
+							<div>
+				<div className="text-[11px] text-muted uppercase tracking-widest mb-0.5">
+									education
+								</div>
+								<div className="text-[13px] text-foreground">
+									SIT — Applied Computing (Fintech)
+								</div>
 							</div>
-							<div className="text-[11px] text-foreground flex items-center flex-wrap gap-1">
-								Something cool hopefully...
-								<BlinkingCursor />
+
+							<div>
+								<div className="text-[11px] text-muted uppercase tracking-widest mb-0.5">
+									currently building
+								</div>
+								<div className="text-[13px] text-foreground flex items-center flex-wrap gap-1">
+									Something cool, hopefully...
+									<BlinkingCursor />
+								</div>
 							</div>
 						</div>
 
@@ -329,29 +530,26 @@ export default function Hero() {
 							<SessionMetrics />
 						</div>
 					</div>
-				</div>
+				</motion.div>
 
 				{/* Col 2 — About Me */}
-				<div className="glass-card rounded-lg md:col-span-6 font-mono">
+				<motion.div
+					className="glass-card rounded-lg md:col-span-6 font-mono"
+					variants={panelVariants}
+					initial="hidden"
+					animate="visible"
+					custom={0.15}
+				>
 					<div className="p-4 sm:p-5 flex flex-col h-full">
-						<div className="text-[9px] text-muted uppercase tracking-widest mb-4">
+						<div className="text-[11px] text-muted uppercase tracking-widest mb-4">
 							about_me.txt
 						</div>
-						<div className="space-y-2.5 mb-4">
-							{ABOUT_ROWS.map(({ key, value }) => (
-								<div
-									key={key}
-									className="flex flex-col sm:flex-row sm:gap-2 text-[11px] leading-relaxed"
-								>
-									<span className="text-accent-blue/90 flex-shrink-0 sm:w-28">
-										{key}
-									</span>
-									<span className="text-foreground pl-2 sm:pl-0">{value}</span>
-								</div>
-							))}
-						</div>
+						<TerminalTypingRows
+							rows={ABOUT_ROWS}
+							reducedMotion={!!shouldReduceMotion}
+						/>
 						<div className="border-t border-border/30 pt-3 mb-4">
-							<p className="text-[11px] text-muted leading-relaxed italic">
+							<p className="text-[13px] text-foreground leading-relaxed">
 								I prefer understanding systems deeply before adding
 								abstractions. Most of my side work lives at the intersection of
 								financial data and backend reliability. I value clear reasoning
@@ -360,41 +558,50 @@ export default function Hero() {
 						</div>
 						<div className="mt-auto border-t border-border/30 pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div>
-								<div className="text-[9px] text-muted uppercase tracking-widest mb-1">
+								<div className="text-[11px] text-muted uppercase tracking-widest mb-1">
 									Seeking
 								</div>
-								<div className="text-[11px] text-foreground">
-									May 2027 - May 2028 1Y Internship
-								</div>
-								<div className="text-[10px] text-muted italic mt-0.5">
-									May 2027 — May 2028
+						<div className="text-[13px] text-foreground">
+									May 2027 – May 2028 · 1Y Internship
 								</div>
 							</div>
 							<div>
-								<div className="text-[9px] text-muted uppercase tracking-widest mb-1">
+								<div className="text-[11px] text-muted uppercase tracking-widest mb-1">
 									Interests
 								</div>
-								<div className="text-[11px] text-foreground">
+								<div className="text-[13px] text-foreground">
 									Backend · DevOps · SRE · Fintech
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</motion.div>
 
 				{/* Col 3 — Time + Theme */}
-				<div className="md:col-span-3 grid grid-cols-2 gap-4 md:grid-cols-1 md:flex md:flex-col">
+				<motion.div
+					className="md:col-span-3 grid grid-cols-2 gap-4 md:grid-cols-1 md:flex md:flex-col"
+					variants={panelVariants}
+					initial="hidden"
+					animate="visible"
+					custom={0.30}
+				>
 					<div className="glass-card rounded-lg p-4 font-mono flex-shrink-0">
 						<TimeDisplay />
 					</div>
 					<div className="glass-card rounded-lg p-4 font-mono flex-1">
 						<ThemeSwitcher />
 					</div>
-				</div>
+				</motion.div>
 			</div>
 
 			{/* YAML Stack Manifest */}
-			<div className="glass-card rounded-lg p-4 sm:p-5 mb-4 font-mono">
+			<motion.div
+				className="glass-card rounded-lg p-4 sm:p-5 mb-4 font-mono"
+				variants={panelVariants}
+				initial="hidden"
+				animate="visible"
+				custom={0.45}
+			>
 				<div className="flex items-center justify-between mb-4 pb-3 border-b border-border/30">
 					<div className="flex items-center gap-2">
 						<span
@@ -402,14 +609,14 @@ export default function Hero() {
 							aria-hidden="true"
 						/>
 						<span className="text-[11px] text-foreground font-bold tracking-[0.15em] uppercase">
-							TECH_STACK
+							<ScrambleText text="TECH_STACK" />
 						</span>
 					</div>
-					<span className="text-[10px] text-muted hidden sm:block">
-						stack.manifest.yml
+					<span className="text-[11px] text-muted hidden sm:block">
+						<ScrambleText text="stack.manifest.yml" />
 					</span>
 				</div>
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
 					<div>
 						<YamlSection header="core_services" comment="primary tech stack">
 							{MANIFEST_CORE.map((row) => (
@@ -421,18 +628,7 @@ export default function Hero() {
 							))}
 						</YamlSection>
 					</div>
-					<div className="md:border-l md:border-border/20 md:pl-6">
-						<YamlSection header="runtime_env" comment="local dev environment">
-							{MANIFEST_RUNTIME.map((row) => (
-								<YamlKeyValue
-									key={row.key}
-									yamlKey={row.key}
-									value={row.value}
-								/>
-							))}
-						</YamlSection>
-					</div>
-					<div className="md:border-l md:border-border/20 md:pl-6">
+					<div className="md:border-l md:border-border/20 md:pl-8">
 						<YamlSection header="experimental_learning" comment="in progress">
 							{MANIFEST_LEARNING.map((row) => (
 								<YamlKeyList
@@ -442,21 +638,22 @@ export default function Hero() {
 								/>
 							))}
 						</YamlSection>
-						<div className="mt-3 border-t border-border/20 pt-3">
-							<div className="text-[9px] text-muted uppercase tracking-widest mb-1.5">
-								# live_metrics
-							</div>
-							<LeetCodeStats />
-						</div>
+						<LanguageBreakdownBar />
 					</div>
 				</div>
-			</div>
+			</motion.div>
 
 			{/* Connect Bar */}
-			<div className="glass-card rounded-lg px-4 sm:px-5 py-3 font-mono">
+			<motion.div
+				className="glass-card rounded-lg px-4 sm:px-5 py-3 font-mono"
+				variants={panelVariants}
+				initial="hidden"
+				animate="visible"
+				custom={0.60}
+			>
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2">
 					<div className="flex items-center gap-2 flex-wrap">
-						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
+						<span className="text-[11px] text-muted uppercase tracking-widest flex-shrink-0">
 							01_Socials
 						</span>
 						<div className="flex gap-2 flex-wrap">
@@ -466,9 +663,9 @@ export default function Hero() {
 									href={social.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="text-[10px] text-foreground border-[0.5px] border-border rounded px-2.5 py-1.5 hover:border-accent-lavender hover:text-accent-lavender transition-colors"
+									className="text-[11px] text-foreground border-[0.5px] border-border rounded px-2.5 py-1.5 hover:border-accent-lavender hover:text-accent-lavender transition-colors"
 								>
-									{social.label}
+									<ScrambleText text={social.label} />
 								</a>
 							))}
 						</div>
@@ -478,7 +675,7 @@ export default function Hero() {
 						aria-hidden="true"
 					/>
 					<div className="flex items-center gap-2 flex-wrap">
-						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
+						<span className="text-[11px] text-muted uppercase tracking-widest flex-shrink-0">
 							02_Assets
 						</span>
 						<div className="flex gap-2 flex-wrap">
@@ -486,36 +683,20 @@ export default function Hero() {
 								href={RESUME_URL}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-[10px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
+								className="text-[11px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
 							>
 								Download_Resume
 							</a>
 							<a
 								href="#projects"
-								className="text-[10px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
+								className="text-[11px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
 							>
 								View_Projects
 							</a>
 						</div>
 					</div>
-					<div
-						className="hidden sm:block w-px h-5 bg-border/40 flex-shrink-0"
-						aria-hidden="true"
-					/>
-					<div className="flex items-center gap-2 flex-wrap">
-						<span className="text-[9px] text-muted uppercase tracking-widest flex-shrink-0">
-							03_Email
-						</span>
-						<button
-							onClick={handleCopyEmail}
-							className="text-[10px] font-bold text-background bg-accent-lavender rounded px-3 py-1.5 hover:opacity-90 active:scale-[0.98] transition-all"
-							aria-label="Copy email address to clipboard"
-						>
-							Copy_Email
-						</button>
-					</div>
 				</div>
-			</div>
+			</motion.div>
 		</section>
 	);
 }

@@ -1,4 +1,5 @@
 import Hero from "./components/Hero";
+import GithubActivity from "./components/GithubActivity";
 import Projects from "./components/Projects";
 //import Skills from "./components/Skills";
 import Footer from "./components/Footer";
@@ -9,6 +10,8 @@ export default function Home() {
 			{/* Single scrollable page with improved flow */}
 			<div className="pt-8">
 				<Hero />
+				<div className="border-t border-border/30 my-12 md:my-16"></div>
+				<GithubActivity />
 				<div className="border-t border-border/30 my-12 md:my-16"></div>
 				<Projects />
 				<div className="border-t border-border/30 my-12 md:my-16"></div>

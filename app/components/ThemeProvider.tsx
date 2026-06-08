@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme =
-	| "mocha"
+	| "everforest-light"
 	| "nord"
 	| "gruvbox"
 	| "rosepine"
@@ -16,12 +16,12 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-	theme: "mocha",
+	theme: "everforest-light",
 	setTheme: () => {},
 });
 
 const VALID_THEMES: Theme[] = [
-	"mocha",
+	"everforest-light",
 	"nord",
 	"gruvbox",
 	"rosepine",
@@ -30,12 +30,13 @@ const VALID_THEMES: Theme[] = [
 ];
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const [theme, setTheme] = useState<Theme>("mocha");
+	const [theme, setTheme] = useState<Theme>("everforest-light");
 	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
 		const saved = localStorage.getItem("theme") as Theme;
-		const initial = saved && VALID_THEMES.includes(saved) ? saved : "mocha";
+		const initial =
+			saved && VALID_THEMES.includes(saved) ? saved : "everforest-light";
 		setTheme(initial);
 		document.documentElement.setAttribute("data-theme", initial);
 		setMounted(true);

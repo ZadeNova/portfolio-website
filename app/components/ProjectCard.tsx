@@ -43,7 +43,7 @@ export default function ProjectCard({
 						{techStack.map((tech) => (
 							<span
 								key={tech}
-								className="text-[9px] border-[0.5px] border-border rounded px-1.5 py-0.5 text-muted uppercase tracking-wide whitespace-nowrap"
+								className="text-[10px] border-[0.5px] border-border rounded px-2 py-0.5 text-muted uppercase tracking-wide whitespace-nowrap"
 							>
 								{tech}
 							</span>
@@ -56,7 +56,7 @@ export default function ProjectCard({
 
 				{/* Logic */}
 				<div className="flex-grow mb-4">
-					<span className="text-[9px] text-muted/60 uppercase tracking-widest block mb-2.5">
+					<span className="text-[10px] text-muted/60 uppercase tracking-widest block mb-2.5">
 						LOGIC:
 					</span>
 					<ul className="space-y-2">
@@ -79,7 +79,7 @@ export default function ProjectCard({
 				{/* Learned */}
 				<div className="border-t border-border/30 pt-3 mt-auto">
 					<p className="text-[11px] text-muted leading-relaxed">
-						<span className="text-muted/60 uppercase tracking-widest text-[9px] mr-2">
+						<span className="text-muted/60 uppercase tracking-widest text-[10px] mr-2">
 							LEARNED:
 						</span>
 						{learned}

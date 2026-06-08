@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import ScrollProgress from "./components/ScrollProgress";
+import SectionNav from "./components/SectionNav";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -30,9 +32,9 @@ export default function RootLayout({
 					dangerouslySetInnerHTML={{
 						__html: `
               (function() {
-                var valid = ['mocha','nord','gruvbox','rosepine','rosepine-dawn','dracula'];
+                var valid = ['everforest-light','nord','gruvbox','rosepine','rosepine-dawn','dracula'];
                 var saved = localStorage.getItem('theme');
-                var theme = (saved && valid.indexOf(saved) !== -1) ? saved : 'mocha';
+                var theme = (saved && valid.indexOf(saved) !== -1) ? saved : 'everforest-light';
                 document.documentElement.setAttribute('data-theme', theme);
               })();
             `,
@@ -42,7 +44,11 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ThemeProvider>{children}</ThemeProvider>
+				<ThemeProvider>
+					<ScrollProgress />
+					<SectionNav />
+					{children}
+				</ThemeProvider>
 			</body>
 		</html>
 	);

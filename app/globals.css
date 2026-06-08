@@ -5,24 +5,26 @@
    All muted values verified WCAG AA (4.5:1) against card-bg surface.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Catppuccin Mocha ────────────────────────────────────────────────────── */
-[data-theme="mocha"] {
-	--background: #1e1e2e;
-	--foreground: #cdd6f4;
-	--accent-lavender: #cba6f7;
-	--accent-blue: #89b4fa;
-	--border: #45475a;
-	--muted: #a6adc8; /* subtext0 — 8.42:1 PASS */
-	--card-bg: #11111b;
-	--glow-color: rgba(203, 166, 247, 0.12);
-	--link-glow-color: rgba(203, 166, 247, 0.25);
-	--dot-color: rgba(203, 166, 247, 0.07);
-	--glass-bg: rgba(17, 17, 27, 0.85);
-	--glass-border: rgba(203, 166, 247, 0.15);
-	--glass-tint: rgba(203, 166, 247, 0.06);
-	--shadow-ambient: rgba(0, 0, 0, 0.4);
-	--shadow-glow: rgba(203, 166, 247, 0.08);
-	--hover-glow: rgba(203, 166, 247, 0.2);
+/* ── Everforest Light ────────────────────────────────────────────────────── */
+/* bg0=soft, bg1=medium (base), bg2=hard (cards) — accent-lavender mapped to
+   "Purple / Special Focus", accent-blue mapped to "Blue / Links / Active"   */
+[data-theme="everforest-light"] {
+	--background: #f9f3df; /* Medium — Default Base */
+	--foreground: #4f5b62; /* Default Text — 5.87:1 PASS */
+	--accent-lavender: #8f537f; /* Purple — Special Focus */
+	--accent-blue: #2e7099; /* Blue — Links / Active */
+	--border: #e5dfc5;
+	--muted: #495247; /* Subtle / Muted Text — 6.83:1 PASS */
+	--card-bg: #f3ebd2; /* Hard — Cards, Sidebars, Modals */
+	--glow-color: rgba(143, 83, 127, 0.12);
+	--link-glow-color: rgba(143, 83, 127, 0.25);
+	--dot-color: rgba(79, 91, 98, 0.08);
+	--glass-bg: rgba(255, 249, 232, 0.85); /* Soft — Large surfaces */
+	--glass-border: rgba(143, 83, 127, 0.15);
+	--glass-tint: rgba(143, 83, 127, 0.04);
+	--shadow-ambient: rgba(0, 0, 0, 0.06);
+	--shadow-glow: rgba(143, 83, 127, 0.05);
+	--hover-glow: rgba(143, 83, 127, 0.15);
 }
 
 /* ── Nord ────────────────────────────────────────────────────────────────── */
@@ -175,13 +177,19 @@ h6 {
 }
 
 /* ─── Theme transition ────────────────────────────────────────────────────── */
-html.theme-transitioning,
-html.theme-transitioning * {
+/* Scoped to large visible surfaces only — animating background/border/shadow
+   on every DOM node (the old `*` selector) forced the browser to track and
+   repaint hundreds of elements simultaneously, which caused the lag. `body`
+   and `.glass-card` already crossfade via their own permanent transitions;
+   `.card-glow` is the one surface that still needs bg/text added on theme
+   change. Everything else snaps instantly, which reads as crisp, not janky. */
+html.theme-transitioning .card-glow {
 	transition:
-		background-color 0.4s ease,
-		border-color 0.4s ease,
-		color 0.4s ease,
-		box-shadow 0.4s ease !important;
+		background-color 0.3s ease,
+		border-color 0.25s ease,
+		color 0.3s ease,
+		box-shadow 0.25s ease,
+		transform 0.25s ease !important;
 }
 
 /* ─── Focus states ────────────────────────────────────────────────────────── */
@@ -231,7 +239,9 @@ button:focus-visible {
 		0 8px 24px rgba(0, 0, 0, 0.2),
 		0 0 40px var(--shadow-glow);
 	transition:
+		background-color 0.3s ease,
 		border-color 0.25s ease,
+		color 0.3s ease,
 		box-shadow 0.25s ease,
 		transform 0.2s ease;
 }
@@ -266,6 +276,78 @@ button:focus-visible {
 
 .scrollbar-none::-webkit-scrollbar {
 	display: none;
+}
+
+/* ─── Terminal cursor blink ───────────────────────────────────────────────── */
+@keyframes terminal-blink {
+	0%,
+	49% {
+		opacity: 1;
+	}
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+.cursor-blink {
+	display: inline-block;
+	width: 6px;
+	height: 12px;
+	background: var(--accent-lavender);
+	margin-left: 2px;
+	vertical-align: middle;
+	animation: terminal-blink 0.75s step-end infinite;
+}
+
+/* ─── System-themed scrollbars ───────────────────────────────────────────── */
+:root {
+	scrollbar-width: thin;
+	scrollbar-color: color-mix(in srgb, var(--accent-lavender) 65%, transparent)
+		var(--background);
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+	background: color-mix(in srgb, var(--accent-lavender) 65%, transparent);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-lavender);
+}
+
+/* ─── Scramble glow ──────────────────────────────────────────────────────── */
+.scramble-active {
+	text-shadow:
+		0 0 6px var(--accent-lavender),
+		0 0 14px color-mix(in srgb, var(--accent-lavender) 40%, transparent);
+	transition: text-shadow 0.08s ease;
+}
+.scramble-idle {
+	text-shadow: none;
+	transition: text-shadow 0.18s ease;
+}
+
+/* ─── Scroll progress bar ─────────────────────────────────────────────────── */
+/* A flat accent-lavender fill reads as near-invisible on the light themes
+   (everforest-light, rosepine-dawn) where that token is a muted, low-contrast
+   purple against a cream background. A two-color gradient plus a soft glow
+   halo keeps the bar perceptible on every theme — the glow extends past the
+   2px line itself, so it reads as a glowing edge rather than relying on the
+   fill color alone for contrast. */
+.scroll-progress-bar {
+	background: linear-gradient(90deg, var(--accent-lavender), var(--accent-blue));
+	box-shadow:
+		0 0 6px color-mix(in srgb, var(--accent-lavender) 70%, transparent),
+		0 1px 3px color-mix(in srgb, var(--foreground) 25%, transparent);
 }
 
 /* ─── Selection ───────────────────────────────────────────────────────────── */
