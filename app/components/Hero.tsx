@@ -51,8 +51,6 @@ const SOCIALS: Social[] = [
 	{ label: "LeetCode", href: "https://leetcode.com/u/ZadeNova/" },
 ];
 
-const RESUME_URL = "/resume.pdf";
-
 const SCRAMBLE_CHARS = "!@#$%^&*_+X0<>?/\\|";
 
 function useScramble(originalText: string) {
@@ -204,14 +202,14 @@ function YamlKeyList({
 }) {
 	return (
 		<div className="flex gap-x-2 font-mono text-[11px] leading-relaxed flex-wrap">
-			<span className="text-accent-blue/80 flex-shrink-0 min-w-[100px]">
+			<span className="text-accent-blue flex-shrink-0 min-w-[100px]">
 				{yamlKey}:
 			</span>
-			<span className="text-foreground/90">
+			<span className="text-foreground">
 				[{" "}
 				{values.map((v, i) => (
 					<span key={v}>
-						<span className="text-accent-blue/70">
+						<span className="text-accent-blue">
 							&quot;<ScrambleText text={v} />&quot;
 						</span>
 						{i < values.length - 1 && <span className="text-muted">, </span>}
@@ -245,10 +243,10 @@ function SessionMetrics() {
 						key={m.key}
 						className="flex font-mono text-[11px] leading-relaxed"
 					>
-						<span className="text-accent-blue/90 w-[72px] flex-shrink-0">
+						<span className="text-accent-blue w-[72px] flex-shrink-0">
 							{m.key}
 						</span>
-						<span className="text-muted/60 mr-2">:</span>
+						<span className="text-muted mr-2">:</span>
 						<span className={m.color}>{m.value}</span>
 					</div>
 				))}
@@ -299,7 +297,7 @@ function TerminalTypingRows({
 						key={key}
 						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
 					>
-						<span className="text-[11px] text-accent-blue/90 flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-[11px] text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
 						<span className="text-[13px] text-foreground pl-2 sm:pl-0">{value}</span>
 					</div>
 				))}
@@ -318,7 +316,7 @@ function TerminalTypingRows({
 						key={key}
 						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
 					>
-						<span className="text-[11px] text-accent-blue/90 flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-[11px] text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
 						<span className="text-[13px] text-foreground pl-2 sm:pl-0">
 							{display}
 							{isTyping && <span className="cursor-blink" aria-hidden="true" />}
@@ -429,7 +427,7 @@ function LanguageBreakdownBar() {
 									style={{ backgroundColor: langColor(lang.name) }}
 									aria-hidden="true"
 								/>
-								<span className="text-foreground/80">{lang.name}</span>
+								<span className="text-muted">{lang.name}</span>
 								<span className="text-muted">{lang.percent.toFixed(1)}%</span>
 							</div>
 						))}
@@ -679,14 +677,6 @@ export default function Hero() {
 							02_Assets
 						</span>
 						<div className="flex gap-2 flex-wrap">
-							<a
-								href={RESUME_URL}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-[11px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
-							>
-								Download_Resume
-							</a>
 							<a
 								href="#projects"
 								className="text-[11px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"

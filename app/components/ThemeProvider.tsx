@@ -16,27 +16,27 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-	theme: "everforest-light",
+	theme: "rosepine-dawn",
 	setTheme: () => {},
 });
 
 const VALID_THEMES: Theme[] = [
+	"rosepine-dawn",
 	"everforest-light",
 	"nord",
 	"gruvbox",
 	"rosepine",
-	"rosepine-dawn",
 	"dracula",
 ];
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const [theme, setTheme] = useState<Theme>("everforest-light");
+	const [theme, setTheme] = useState<Theme>("rosepine-dawn");
 	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
 		const saved = localStorage.getItem("theme") as Theme;
 		const initial =
-			saved && VALID_THEMES.includes(saved) ? saved : "everforest-light";
+			saved && VALID_THEMES.includes(saved) ? saved : "rosepine-dawn";
 		setTheme(initial);
 		document.documentElement.setAttribute("data-theme", initial);
 		setMounted(true);

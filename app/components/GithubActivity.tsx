@@ -119,7 +119,7 @@ function RecentActivityFeed({
 									{relativeTime(item.date)}
 								</span>
 							</div>
-							<div className="text-foreground/80 truncate group-hover/item:text-foreground transition-colors">
+							<div className="text-foreground truncate group-hover/item:text-foreground transition-colors">
 								{item.message}
 							</div>
 						</li>

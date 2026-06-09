@@ -27,7 +27,7 @@ interface Project {
 // ─── Tag styles — mono font, category-coloured ───────────────────────────────
 
 const TAG_STYLES: Record<TechCategory, string> = {
-	language: "border-green-500/40  text-green-400",
+	language: "border-accent-green/40  text-accent-green",
 	ops: "border-yellow-500/40 text-yellow-400",
 	framework: "border-accent-blue/40 text-accent-blue",
 	data: "border-accent-lavender/40 text-accent-lavender",
@@ -168,7 +168,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 					aria-controls={`project-detail-${index}`}
 					className="w-full flex items-center gap-3 px-4 py-3 text-left group"
 				>
-					<span className="text-[11px] text-muted/50 font-bold font-mono flex-shrink-0 w-6 tabular-nums">
+					<span className="text-[11px] text-muted font-bold font-mono flex-shrink-0 w-6 tabular-nums">
 						{cardNumber}
 					</span>
 					<span className="text-[15px] font-semibold text-accent-lavender flex-shrink-0 min-w-[160px] font-sans group-hover:opacity-90 transition-opacity">
@@ -189,10 +189,10 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 							</span>
 						)}
 					</div>
-					<span className="text-[11px] text-muted/60 font-mono flex-shrink-0 hidden lg:block max-w-[260px] truncate">
+					<span className="text-[11px] text-muted font-mono flex-shrink-0 hidden lg:block max-w-[260px] truncate">
 						{project.description.slice(0, 72)}…
 					</span>
-					<div className="flex items-center gap-2 ml-3 flex-shrink-0 text-muted/50">
+					<div className="flex items-center gap-2 ml-3 flex-shrink-0 text-muted">
 						{project.repoUrl && (
 							<a
 								href={project.repoUrl}
@@ -217,7 +217,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 								<ExternalLinkIcon />
 							</a>
 						)}
-						<span className="text-muted/40">
+						<span className="text-muted">
 							<ChevronIcon open={isExpanded} />
 						</span>
 					</div>
@@ -235,10 +235,10 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 							className="p-4 md:p-5"
 							style={{ borderRight: "0.5px solid var(--glass-border)" }}
 						>
-							<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-3">
+							<div className="text-[11px] text-muted uppercase tracking-widest mb-3">
 								Overview
 							</div>
-							<p className="text-[13px] text-foreground/80 leading-relaxed font-sans">
+							<p className="text-[13px] text-foreground leading-relaxed font-sans">
 								{project.description}
 							</p>
 						</div>
@@ -246,7 +246,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 						{/* Right — learned + tags + links */}
 						<div className="p-4 md:p-5 flex flex-col gap-4">
 							<div>
-								<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-2">
+								<div className="text-[11px] text-muted uppercase tracking-widest mb-2">
 									Learned
 								</div>
 								<div
@@ -263,7 +263,7 @@ function DesktopRow({ project, index, isExpanded, onToggle }: DesktopRowProps) {
 							</div>
 
 							<div>
-								<div className="text-[11px] text-muted/60 uppercase tracking-widest mb-2">
+								<div className="text-[11px] text-muted uppercase tracking-widest mb-2">
 									Stack
 								</div>
 								<div className="flex flex-wrap gap-1.5">
@@ -345,7 +345,7 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 					</div>
 				</div>
 
-				<p className="text-[13px] text-foreground/75 leading-relaxed mb-4 font-sans">
+				<p className="text-[13px] text-foreground leading-relaxed mb-4 font-sans">
 					{project.description}
 				</p>
 
@@ -358,8 +358,7 @@ function MobileCard({ project, index }: { project: Project; index: number }) {
 					}}
 				>
 					<span
-						className="text-[11px] uppercase tracking-widest font-mono mr-2"
-						style={{ color: "var(--muted)", opacity: 0.6 }}
+						className="text-[11px] uppercase tracking-widest font-mono mr-2 text-muted"
 					>
 						Learned:
 					</span>

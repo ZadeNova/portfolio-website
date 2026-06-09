@@ -45,7 +45,7 @@ const FOOTER_LINKS: FooterLink[] = [
 ];
 
 const PLATFORM = "VERCEL_EDGE";
-const FRAMEWORK = "NEXT.JS_16 + TAILWIND_4";
+const FRAMEWORK = "NEXT.JS_16.1 + REACT_19 + TAILWIND_4";
 
 const GIT_SHA = process.env.NEXT_PUBLIC_GIT_SHA || "unknown";
 const GIT_DATE = process.env.NEXT_PUBLIC_GIT_DATE || new Date().toISOString();
@@ -80,7 +80,7 @@ export default function Footer(): ReactElement {
 							<span className="text-accent-lavender font-semibold">
 								{GIT_SHA}
 							</span>
-							<span className="text-foreground/60 ml-1.5">
+							<span className="text-muted ml-1.5">
 								· {relativeTime(GIT_DATE)}
 							</span>
 						</span>
@@ -90,17 +90,40 @@ export default function Footer(): ReactElement {
 						</span>
 						<span>
 							<span className="text-muted mr-1.5">STACK:</span>
-							<span className="text-foreground/80">{FRAMEWORK}</span>
+							<span className="text-foreground">{FRAMEWORK}</span>
 						</span>
 					</div>
 					<div className="flex items-center gap-1.5 text-[11px] font-mono">
 						<span
-							className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse flex-shrink-0"
+							className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse flex-shrink-0"
 							aria-hidden="true"
 						/>
-						<span className="text-green-400 font-semibold tracking-wide">
+						<span className="text-accent-green font-semibold tracking-wide">
 							SYSTEMS_NOMINAL
 						</span>
+					</div>
+				</div>
+
+				{/* Availability + contact */}
+				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-4 pb-4 border-b border-border/20 text-[11px] font-mono">
+					<div className="flex flex-wrap gap-x-5 gap-y-1">
+						<span>
+							<span className="text-muted mr-1.5">SEEKING:</span>
+							<span className="text-foreground">Backend · DevOps · SRE</span>
+							<span className="text-muted mx-1.5">·</span>
+							<span className="text-foreground">May 2027 – May 2028 · 1Y Internship</span>
+						</span>
+					</div>
+					<div className="flex items-center gap-1.5">
+						<span className="text-muted mr-1.5">CONTACT:</span>
+						<a
+							href="https://www.linkedin.com/in/erfanmohan-zade/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-accent-lavender hover:underline underline-offset-2 transition-colors"
+						>
+							LinkedIn DM preferred
+						</a>
 					</div>
 				</div>
 
@@ -115,11 +138,11 @@ export default function Footer(): ReactElement {
 										{...(link.isExternal
 											? { target: "_blank", rel: "noopener noreferrer" }
 											: {})}
-										className="flex items-center gap-2 text-muted hover:text-accent-lavender transition-colors duration-150 group"
+										className="flex items-center gap-2 text-foreground/70 hover:text-accent-lavender transition-colors duration-150 group"
 										aria-label={link.label}
 									>
 										<span className="transition-colors">{link.icon}</span>
-										<span className="text-[11px] font-mono border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
+										<span className="text-[12px] font-mono border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
 											{link.label}
 										</span>
 									</a>
@@ -127,7 +150,7 @@ export default function Footer(): ReactElement {
 							))}
 						</ul>
 					</nav>
-					<p className="text-[11px] text-muted font-mono text-center sm:text-right">
+					<p className="text-[12px] text-muted font-mono text-center sm:text-right">
 						© {year} Erfan Mohan — Built with Next.js &amp; Tailwind CSS
 					</p>
 				</div>

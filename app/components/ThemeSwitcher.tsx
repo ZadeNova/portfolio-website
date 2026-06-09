@@ -3,11 +3,11 @@
 import { useTheme } from "./ThemeProvider";
 
 const THEMES = [
+	{ id: "rosepine-dawn", name: "Rosé Pine Dawn", emoji: "🌅" },
 	{ id: "everforest-light", name: "Everforest Light", emoji: "🌲" },
 	{ id: "nord", name: "Nord", emoji: "❄️" },
 	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
 	{ id: "rosepine", name: "Rosé Pine", emoji: "🌸" },
-	{ id: "rosepine-dawn", name: "Rosé Pine Dawn", emoji: "🌅" },
 	{ id: "dracula", name: "Dracula", emoji: "🧛" },
 ] as const;
 

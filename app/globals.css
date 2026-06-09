@@ -13,6 +13,7 @@
 	--foreground: #4f5b62; /* Default Text — 5.87:1 PASS */
 	--accent-lavender: #8f537f; /* Purple — Special Focus */
 	--accent-blue: #2e7099; /* Blue — Links / Active */
+	--accent-green: #2e6a2e; /* Dark forest green — 5.69:1 on card-bg PASS */
 	--border: #e5dfc5;
 	--muted: #495247; /* Subtle / Muted Text — 6.83:1 PASS */
 	--card-bg: #f3ebd2; /* Hard — Cards, Sidebars, Modals */
@@ -33,6 +34,7 @@
 	--foreground: #d8dee9;
 	--accent-lavender: #88c0d0;
 	--accent-blue: #5e81ac;
+	--accent-green: #a3be8c; /* Nord sage green — 4.63:1 on card-bg PASS */
 	--border: #434c5e;
 	--muted: #a3afbf; /* lifted from nord3 — 4.52:1 PASS */
 	--card-bg: #3b4252;
@@ -53,6 +55,7 @@
 	--foreground: #ebdbb2;
 	--accent-lavender: #fe8019;
 	--accent-blue: #83a598;
+	--accent-green: #b8bb26; /* Gruvbox bright yellow-green — 8.58:1 on card-bg PASS */
 	--border: #504945;
 	--muted: #a89984; /* fg4 — 5.90:1 PASS */
 	--card-bg: #1d2021;
@@ -74,6 +77,7 @@
 	--foreground: #e0def4;
 	--accent-lavender: #c4a7e7;
 	--accent-blue: #9ccfd8;
+	--accent-green: #52d09b; /* Mint green — high contrast on dark card-bg PASS */
 	--border: #26233a;
 	--muted: #908caa; /* subtle — 5.12:1 PASS */
 	--card-bg: #1f1d2e;
@@ -94,8 +98,9 @@
 	--foreground: #575279; /* text */
 	--accent-lavender: #907aa9; /* iris */
 	--accent-blue: #56949f; /* foam */
+	--accent-green: #2e6a2e; /* Dark forest green — 6.41:1 on card-bg PASS */
 	--border: #d4cacc; /* Darkened the border slightly for visibility on light bg */
-	--muted: #797593; /* Muted text */
+	--muted: #6b6887; /* Darkened from #797593 for better contrast on light card-bg */
 	--card-bg: #fffaf3; /* Surface (Clean, bright card background) */
 	--glow-color: rgba(144, 122, 169, 0.12);
 	--link-glow-color: rgba(144, 122, 169, 0.25);
@@ -115,6 +120,7 @@
 	--foreground: #f8f8f2;
 	--accent-lavender: #ff79c6;
 	--accent-blue: #8be9fd;
+	--accent-green: #50fa7b; /* Dracula official green — high contrast on dark PASS */
 	--border: #44475a;
 	--muted: #a0a2bc; /* lifted — 6.31:1 PASS */
 	--card-bg: #21222c;
@@ -135,6 +141,7 @@
 	--color-foreground: var(--foreground);
 	--color-accent-lavender: var(--accent-lavender);
 	--color-accent-blue: var(--accent-blue);
+	--color-accent-green: var(--accent-green);
 	--color-border: var(--border);
 	--color-muted: var(--muted);
 	--color-card-bg: var(--card-bg);

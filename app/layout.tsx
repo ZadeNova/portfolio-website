@@ -32,9 +32,9 @@ export default function RootLayout({
 					dangerouslySetInnerHTML={{
 						__html: `
               (function() {
-                var valid = ['everforest-light','nord','gruvbox','rosepine','rosepine-dawn','dracula'];
+                var valid = ['rosepine-dawn','everforest-light','nord','gruvbox','rosepine','dracula'];
                 var saved = localStorage.getItem('theme');
-                var theme = (saved && valid.indexOf(saved) !== -1) ? saved : 'everforest-light';
+                var theme = (saved && valid.indexOf(saved) !== -1) ? saved : 'rosepine-dawn';
                 document.documentElement.setAttribute('data-theme', theme);
               })();
             `,
