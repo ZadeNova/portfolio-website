@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { GITHUB_USERNAME, authHeaders } from "../_shared";
 
-const GITHUB_USER = "ZadeNova";
 const FEED_LIMIT = 5;
 const CANDIDATE_LIMIT = 40;
 // GitHub's special "profile README" repo convention (owner/owner) — this is
 // where scheduled bot workflows (e.g. readme-bot) commit on a recurring basis.
-const PROFILE_README_REPO = `${GITHUB_USER}/${GITHUB_USER}`;
+const PROFILE_README_REPO = `${GITHUB_USERNAME}/${GITHUB_USERNAME}`;
 
 interface GithubEvent {
 	type: string;
@@ -22,18 +22,12 @@ interface ActivityItem {
 	isBot: boolean;
 }
 
-function authHeaders(token: string | undefined): HeadersInit {
-	const headers: HeadersInit = { Accept: "application/vnd.github+json" };
-	if (token) headers.Authorization = `Bearer ${token}`;
-	return headers;
-}
-
 export async function GET() {
 	const token = process.env.GITHUB_TOKEN;
 
 	try {
 		const eventsRes = await fetch(
-			`https://api.github.com/users/${GITHUB_USER}/events/public?per_page=50`,
+			`https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=50`,
 			{ headers: authHeaders(token), next: { revalidate: 3600 } },
 		);
 		const events: GithubEvent[] = await eventsRes.json();
@@ -50,7 +44,7 @@ export async function GET() {
 		const candidates: ActivityItem[] = await Promise.all(
 			pushes.map(async (event) => {
 				const sha = event.payload.head as string;
-				const repo = event.repo.name.replace(`${GITHUB_USER}/`, "");
+				const repo = event.repo.name.replace(`${GITHUB_USERNAME}/`, "");
 				try {
 					const commitRes = await fetch(
 						`https://api.github.com/repos/${event.repo.name}/commits/${sha}`,

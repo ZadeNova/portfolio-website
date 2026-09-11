@@ -1,7 +1,6 @@
 import Hero from "./components/Hero";
 import GithubActivity from "./components/GithubActivity";
 import Projects from "./components/Projects";
-//import Skills from "./components/Skills";
 import Footer from "./components/Footer";
 
 export default function Home() {

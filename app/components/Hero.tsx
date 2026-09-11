@@ -5,51 +5,22 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { Skeleton } from "./Skeleton";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useReducedMotion, useInView } from "framer-motion";
-
-type StatusVariant = "open" | "interning" | "unavailable";
-interface StatusConfig {
-	label: string;
-	variant: StatusVariant;
-}
-interface Social {
-	label: string;
-	href: string;
-}
-
-const STATUS: StatusConfig = {
-	label: "Interning @ ECICS",
-	variant: "interning",
-};
-
-const ABOUT_ROWS: { key: string; value: string }[] = [
-	{ key: "> background", value: "Applied Fintech undergraduate @ SIT" },
-	{ key: "> currently", value: "Fullstack Developer Intern @ ECICS Limited" },
-	{
-		key: "> focus",
-		value: "Backend Engineering · DevOps · Site Reliability Engineering",
-	},
-	{ key: "> goal", value: "Upskill myself and enjoy the process." },
-	{ key: "> hobbies", value: "Gaming, Coding, Gym, Calisthenics, TV/Movies" },
-];
-
-const MANIFEST_CORE = [
-	{ key: "languages", values: ["python", "go", "java", "C", "typescript"] },
-	{ key: "databases", values: ["postgres", "mysql", "sql"] },
-	{ key: "backend", values: ["fastapi", "flask", "node.js", "asp.net"] },
-	{ key: "frontend", values: ["next.js", "react", "tailwind"] },
-	{ key: "ops", values: ["docker", "linux", "bash", "git"] },
-];
-
-const MANIFEST_LEARNING = [
-	{ key: "active", values: ["Golang"] },
-	{ key: "next_queue", values: ["AWS", "terraform", "kubernetes"] },
-];
-
-const SOCIALS: Social[] = [
-	{ label: "GitHub", href: "https://github.com/ZadeNova" },
-	{ label: "LinkedIn", href: "https://www.linkedin.com/in/erfanmohan-zade/" },
-	{ label: "LeetCode", href: "https://leetcode.com/u/ZadeNova/" },
-];
+import {
+	DISPLAY_NAME,
+	ROLE_TAGLINE,
+	EDUCATION,
+	STATUS,
+	SEEKING_PERIOD,
+	FOCUS_AREAS,
+	BIO_PARAGRAPH,
+	ABOUT_ROWS,
+	SESSION_METRICS,
+	MANIFEST_CORE,
+	MANIFEST_LEARNING,
+	SOCIALS,
+	type StatusConfig,
+	type StatusVariant,
+} from "../config/profile";
 
 const SCRAMBLE_CHARS = "!@#$%^&*_+X0<>?/\\|";
 
@@ -222,23 +193,13 @@ function YamlKeyList({
 }
 
 function SessionMetrics() {
-	const metrics = [
-		{ key: "AGE", value: "24 years", color: "text-muted" },
-		{ key: "MBTI", value: "INTP", color: "text-muted" },
-		{ key: "LEVEL", value: "Year 1 Student @ SIT", color: "text-muted" },
-		{
-			key: "ACTIVITY",
-			value: "Currently trying to survive SIT",
-			color: "text-accent-blue font-semibold",
-		},
-	];
 	return (
 		<div className="space-y-2">
 			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
 				SESSION_METRICS
 			</div>
 			<div className="space-y-1.5">
-				{metrics.map((m) => (
+				{SESSION_METRICS.map((m) => (
 					<div
 						key={m.key}
 						className="flex font-mono text-[11px] leading-relaxed"
@@ -496,10 +457,10 @@ export default function Hero() {
 					<div className="p-4 flex-1 flex flex-col">
 						<div className="mb-5">
 							<div className="text-base font-semibold text-accent-lavender leading-snug">
-								Erfan Mohan (Zade)
+								{DISPLAY_NAME}
 							</div>
 							<div className="text-[13px] text-foreground font-medium mt-1">
-								Aspiring Backend Engineer
+								{ROLE_TAGLINE}
 							</div>
 						</div>
 
@@ -509,7 +470,7 @@ export default function Hero() {
 									education
 								</div>
 								<div className="text-[13px] text-foreground">
-									SIT — Applied Computing (Fintech)
+									{EDUCATION}
 								</div>
 							</div>
 
@@ -547,11 +508,8 @@ export default function Hero() {
 							reducedMotion={!!shouldReduceMotion}
 						/>
 						<div className="border-t border-border/30 pt-3 mb-4">
-							<p className="text-[13px] text-foreground leading-relaxed">
-								I prefer understanding systems deeply before adding
-								abstractions. Most of my side work lives at the intersection of
-								financial data and backend reliability. I value clear reasoning
-								and well-designed interfaces over clever solutions.
+							<p className="text-[13px] text-foreground leading-relaxed font-sans">
+								{BIO_PARAGRAPH}
 							</p>
 						</div>
 						<div className="mt-auto border-t border-border/30 pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -560,7 +518,7 @@ export default function Hero() {
 									Seeking
 								</div>
 						<div className="text-[13px] text-foreground">
-									May 2027 – May 2028 · 1Y Internship
+									{SEEKING_PERIOD}
 								</div>
 							</div>
 							<div>
@@ -568,7 +526,7 @@ export default function Hero() {
 									Interests
 								</div>
 								<div className="text-[13px] text-foreground">
-									Backend · DevOps · SRE · Fintech
+									{FOCUS_AREAS}
 								</div>
 							</div>
 						</div>

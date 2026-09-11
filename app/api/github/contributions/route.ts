@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-
-const GITHUB_USER = "ZadeNova";
+import { GITHUB_USERNAME } from "../_shared";
 
 const QUERY = `
 	query($login: String!) {
@@ -49,7 +48,7 @@ export async function GET() {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_USER } }),
+			body: JSON.stringify({ query: QUERY, variables: { login: GITHUB_USERNAME } }),
 			next: { revalidate: 3600 },
 		});
 		const json = await res.json();

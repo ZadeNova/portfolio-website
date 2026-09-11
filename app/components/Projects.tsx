@@ -2,27 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type FilterTag = "ALL" | "BACKEND" | "SYSTEMS" | "FINTECH";
-
-type TechCategory = "language" | "ops" | "framework" | "data" | "db" | "other";
-
-interface TechTag {
-	name: string;
-	category: TechCategory;
-}
-
-interface Project {
-	name: string;
-	description: string; // replaces problem + decisions
-	learned: string;
-	tags: TechTag[];
-	filters: FilterTag[];
-	repoUrl?: string;
-	liveUrl?: string;
-}
+import { GitHubIcon } from "./icons";
+import {
+	PROJECTS,
+	type Project,
+	type FilterTag,
+	type TechCategory,
+} from "../config/profile";
 
 // ─── Tag styles — mono font, category-coloured ───────────────────────────────
 
@@ -35,74 +21,9 @@ const TAG_STYLES: Record<TechCategory, string> = {
 	other: "border-border text-muted",
 };
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const PROJECTS: Project[] = [
-	{
-		name: "BullBear Analysis",
-		description:
-			"A production-ready financial analysis tool that runs sophisticated technical indicators (MACD, RSI, Bollinger Bands) against historical stock data and surfaces buy/sell signals through an interactive Streamlit dashboard. Containerized via Docker to eliminate TA-Lib C-library setup friction, with analytics logic fully decoupled from the visualization layer for maintainability. Includes a theoretical profit maximization engine to back-test signal accuracy against historical price data.",
-		learned:
-			"Environment containerization for specialized C-dependencies and decoupling data processing from interactive visualization in Streamlit.",
-		tags: [
-			{ name: "Python", category: "language" },
-			{ name: "Docker", category: "ops" },
-			{ name: "Streamlit", category: "framework" },
-			{ name: "TA-Lib", category: "data" },
-			{ name: "Pandas", category: "data" },
-			{ name: "Plotly", category: "data" },
-		],
-		filters: ["ALL", "BACKEND", "FINTECH"],
-		repoUrl: "https://github.com/ZadeNova",
-	},
-	{
-		name: "Class Management System",
-		description:
-			"A CLI-based student records system built in C using custom data structures — hash tables for O(1) ID lookups, a stack-based undo system for state recovery, and role-based access control separating Staff (write) from Student (read-only) permissions. Automated regression testing written with the Tcl/Expect framework. Demonstrates low-level memory management and systems design without relying on higher-level language abstractions.",
-		learned:
-			"Mastered low-level memory management and custom data structure design in C while implementing automated regression testing suites with the Tcl/Expect framework.",
-		tags: [
-			{ name: "C", category: "language" },
-			{ name: "MakeFile", category: "ops" },
-		],
-		filters: ["ALL", "SYSTEMS"],
-		repoUrl: "https://github.com/ZadeNova",
-	},
-	{
-		name: "TickerLens",
-		description:
-			"A full-stack financial dashboard with a FastAPI backend and Next.js frontend that delivers delayed stock metrics, interactive price charts, and benchmark comparisons against the S&P 500 across YTD, 1Y, 3Y, and 5Y timeframes. Pydantic models enforce strict schema validation between the Python backend and React frontend. A custom date-alignment algorithm using pytz and relativedelta accurately maps historical price points to the nearest US trading day.",
-		learned:
-			"Gained deep experience in full-stack orchestration, focusing on type-safe API design with Pydantic and interactive data visualization with Recharts.",
-		tags: [
-			{ name: "Next.js", category: "framework" },
-			{ name: "FastAPI", category: "framework" },
-			{ name: "Python", category: "language" },
-			{ name: "TailwindCSS", category: "framework" },
-			{ name: "yFinance", category: "data" },
-			{ name: "Recharts", category: "data" },
-		],
-		filters: ["ALL", "BACKEND", "FINTECH"],
-		repoUrl: "https://github.com/ZadeNova",
-	},
-];
-
 const FILTERS: FilterTag[] = ["ALL", "BACKEND", "SYSTEMS", "FINTECH"];
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
-
-function GitHubIcon() {
-	return (
-		<svg
-			viewBox="0 0 24 24"
-			className="w-3.5 h-3.5"
-			fill="currentColor"
-			aria-hidden="true"
-		>
-			<path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-		</svg>
-	);
-}
 
 function ExternalLinkIcon() {
 	return (

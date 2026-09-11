@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
+import { GITHUB_USERNAME, authHeaders } from "../_shared";
 
-const GITHUB_USER = "ZadeNova";
 const MAX_LANGUAGES = 5;
 
 interface GithubRepo {
@@ -9,18 +9,12 @@ interface GithubRepo {
 	languages_url: string;
 }
 
-function authHeaders(token: string | undefined): HeadersInit {
-	const headers: HeadersInit = { Accept: "application/vnd.github+json" };
-	if (token) headers.Authorization = `Bearer ${token}`;
-	return headers;
-}
-
 export async function GET() {
 	const token = process.env.GITHUB_TOKEN;
 
 	try {
 		const reposRes = await fetch(
-			`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&type=owner`,
+			`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&type=owner`,
 			{
 				headers: authHeaders(token),
 				next: { revalidate: 3600 },

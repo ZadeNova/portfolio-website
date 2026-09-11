@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Skeleton } from "./Skeleton";
+import { relativeTime } from "../lib/format";
 
 interface ContributionDay {
 	date: string;
@@ -29,19 +30,6 @@ function formatDate(iso: string): string {
 		day: "numeric",
 		year: "numeric",
 	});
-}
-
-function relativeTime(iso: string): string {
-	const diffMs = Date.now() - new Date(iso).getTime();
-	const mins = Math.floor(diffMs / 60_000);
-	if (mins < 1) return "just now";
-	if (mins < 60) return `${mins}m ago`;
-	const hours = Math.floor(mins / 60);
-	if (hours < 24) return `${hours}h ago`;
-	const days = Math.floor(hours / 24);
-	if (days < 30) return `${days}d ago`;
-	const months = Math.floor(days / 30);
-	return `${months}mo ago`;
 }
 
 function HeatmapCell({ day }: { day: ContributionDay }) {
