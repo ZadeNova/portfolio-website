@@ -2,13 +2,16 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme =
-	| "everforest-light"
-	| "nord"
-	| "gruvbox"
-	| "rosepine"
-	| "rosepine-dawn"
-	| "dracula";
+export const THEMES = [
+	{ id: "rosepine-dawn", name: "Rosé Pine Dawn", emoji: "🌅" },
+	{ id: "everforest-light", name: "Everforest Light", emoji: "🌲" },
+	{ id: "nord", name: "Nord", emoji: "❄️" },
+	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
+	{ id: "rosepine", name: "Rosé Pine", emoji: "🌸" },
+	{ id: "dracula", name: "Dracula", emoji: "🧛" },
+] as const;
+
+type Theme = (typeof THEMES)[number]["id"];
 
 interface ThemeContextType {
 	theme: Theme;
@@ -20,14 +23,7 @@ const ThemeContext = createContext<ThemeContextType>({
 	setTheme: () => {},
 });
 
-const VALID_THEMES: Theme[] = [
-	"rosepine-dawn",
-	"everforest-light",
-	"nord",
-	"gruvbox",
-	"rosepine",
-	"dracula",
-];
+const VALID_THEMES: Theme[] = THEMES.map((t) => t.id);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	const [theme, setTheme] = useState<Theme>("rosepine-dawn");

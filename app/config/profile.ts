@@ -17,12 +17,20 @@ export interface StatusConfig {
 }
 
 export const STATUS: StatusConfig = {
-	label: "Interning @ ECICS",
-	variant: "interning",
+	label: "Y2 Fintech Student @ SIT",
+	variant: "open",
 };
 
 export const SEEKING_PERIOD = "May 2027 – May 2028 · 1Y Internship";
 export const FOCUS_AREAS = "Backend · DevOps · SRE · Fintech";
+
+export const QUOTES: string[] = [
+	"We suffer more often in imagination than in reality.",
+	"Luck is what happens when preparation meets opportunity.",
+	"Today is victory over yourself of yesterday.",
+	"The best revenge is massive success.",
+	"There are no men like me. Only me.",
+];
 
 export const BIO_PARAGRAPH =
 	"I prefer understanding systems deeply before adding abstractions. Most of my side work lives at the intersection of financial data and backend reliability. I value clear reasoning and well-designed interfaces over clever solutions.";
@@ -40,12 +48,12 @@ export const SOCIALS: Social[] = [
 
 export const ABOUT_ROWS: { key: string; value: string }[] = [
 	{ key: "> background", value: "Applied Fintech undergraduate @ SIT" },
-	{ key: "> currently", value: "Fullstack Developer Intern @ ECICS Limited" },
+	{ key: "> currently", value: "Job hunting while upskilling." },
 	{
 		key: "> focus",
 		value: "Backend Engineering · DevOps · Site Reliability Engineering",
 	},
-	{ key: "> goal", value: "Upskill myself and enjoy the process." },
+	{ key: "> goal", value: "Land a solid role and enjoy the process." },
 	{ key: "> hobbies", value: "Gaming, Coding, Gym, Calisthenics, TV/Movies" },
 ];
 
@@ -56,7 +64,7 @@ export const SESSION_METRICS: {
 }[] = [
 	{ key: "AGE", value: "24 years", color: "text-muted" },
 	{ key: "MBTI", value: "INTP", color: "text-muted" },
-	{ key: "LEVEL", value: "Year 1 Student @ SIT", color: "text-muted" },
+	{ key: "LEVEL", value: "Year 2 Student @ SIT", color: "text-muted" },
 	{
 		key: "ACTIVITY",
 		value: "Currently trying to survive SIT",
@@ -74,10 +82,16 @@ export const MANIFEST_CORE = [
 
 export const MANIFEST_LEARNING = [
 	{ key: "active", values: ["Golang"] },
-	{ key: "next_queue", values: ["AWS", "terraform", "kubernetes"] },
+	{ key: "next_queue", values: ["AWS", "terraform"] },
 ];
 
-export type TechCategory = "language" | "ops" | "framework" | "data" | "db" | "other";
+export type TechCategory =
+	| "language"
+	| "ops"
+	| "framework"
+	| "data"
+	| "db"
+	| "other";
 
 export interface TechTag {
 	name: string;

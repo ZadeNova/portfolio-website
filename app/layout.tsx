@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import ScrollProgress from "./components/ScrollProgress";
-import SectionNav from "./components/SectionNav";
+import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -46,7 +46,7 @@ export default function RootLayout({
 			>
 				<ThemeProvider>
 					<ScrollProgress />
-					<SectionNav />
+					<Navbar />
 					{children}
 				</ThemeProvider>
 			</body>

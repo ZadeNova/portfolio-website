@@ -1,7 +1,6 @@
 "use client";
 
 import TimeDisplay from "./TimeDisplay";
-import ThemeSwitcher from "./ThemeSwitcher";
 import { Skeleton } from "./Skeleton";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useReducedMotion, useInView } from "framer-motion";
@@ -18,6 +17,7 @@ import {
 	MANIFEST_CORE,
 	MANIFEST_LEARNING,
 	SOCIALS,
+	QUOTES,
 	type StatusConfig,
 	type StatusVariant,
 } from "../config/profile";
@@ -212,14 +212,25 @@ function SessionMetrics() {
 					</div>
 				))}
 			</div>
-			<div className="flex gap-1.5 pt-3" aria-hidden="true">
-				<span className="w-2.5 h-2.5 rounded-full bg-[#f38ba8]" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#fab387]" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#a6e3a1]" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#94e2d5]" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#89b4fa]" />
-				<span className="w-2.5 h-2.5 rounded-full bg-[#cba6f7]" />
+		</div>
+	);
+}
+
+function QuoteCard() {
+	const [quote, setQuote] = useState(QUOTES[0]);
+
+	useEffect(() => {
+		setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
+	}, []);
+
+	return (
+		<div className="flex flex-col h-full">
+			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
+				quote.txt
 			</div>
+			<p className="text-[13px] text-foreground leading-relaxed font-sans italic">
+				&ldquo;{quote}&rdquo;
+			</p>
 		</div>
 	);
 }
@@ -429,24 +440,7 @@ export default function Hero() {
 					custom={0}
 				>
 					<div className="flex items-center justify-between px-3 py-2 bg-background/40 border-b border-border/40 gap-2 flex-shrink-0">
-						<div
-							className="flex items-center gap-1.5 flex-shrink-0"
-							aria-hidden="true"
-						>
-							<span
-								className="w-2.5 h-2.5 rounded-full"
-								style={{ background: "#f38ba8" }}
-							/>
-							<span
-								className="w-2.5 h-2.5 rounded-full"
-								style={{ background: "#f9e2af" }}
-							/>
-							<span
-								className="w-2.5 h-2.5 rounded-full"
-								style={{ background: "#a6e3a1" }}
-							/>
-						</div>
-						<span className="text-[11px] text-muted tracking-wide flex-shrink-0 hidden sm:block">
+						<span className="text-[11px] text-muted tracking-wide flex-shrink-0">
 							zade@portfolio:~
 						</span>
 						<div className="flex items-center gap-2 flex-shrink-0">
@@ -545,7 +539,7 @@ export default function Hero() {
 						<TimeDisplay />
 					</div>
 					<div className="glass-card rounded-lg p-4 font-mono flex-1">
-						<ThemeSwitcher />
+						<QuoteCard />
 					</div>
 				</motion.div>
 			</div>
