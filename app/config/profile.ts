@@ -17,12 +17,12 @@ export interface StatusConfig {
 }
 
 export const STATUS: StatusConfig = {
-	label: "Y2 Fintech Student @ SIT",
+	label: "Y2 Fintech Student",
 	variant: "open",
 };
 
 export const SEEKING_PERIOD = "May 2027 – May 2028 · 1Y Internship";
-export const FOCUS_AREAS = "Backend · DevOps · SRE · Fintech";
+export const FOCUS_AREAS = "Backend · DevOps · SRE";
 
 export const QUOTES: string[] = [
 	"We suffer more often in imagination than in reality.",
@@ -64,7 +64,7 @@ export const SESSION_METRICS: {
 }[] = [
 	{ key: "AGE", value: "24 years", color: "text-muted" },
 	{ key: "MBTI", value: "INTP", color: "text-muted" },
-	{ key: "LEVEL", value: "Year 2 Student @ SIT", color: "text-muted" },
+	{ key: "LEVEL", value: "Year 2 Fintech Student @ SIT", color: "text-muted" },
 	{
 		key: "ACTIVITY",
 		value: "Currently trying to survive SIT",
@@ -75,7 +75,7 @@ export const SESSION_METRICS: {
 export const MANIFEST_CORE = [
 	{ key: "languages", values: ["python", "go", "java", "C", "typescript"] },
 	{ key: "databases", values: ["postgres", "mysql", "sql"] },
-	{ key: "backend", values: ["fastapi", "flask", "node.js", "asp.net"] },
+	{ key: "backend", values: ["fastapi", "flask", "Django", "asp.net"] },
 	{ key: "frontend", values: ["next.js", "react", "tailwind"] },
 	{ key: "ops", values: ["docker", "linux", "bash", "git"] },
 ];
@@ -126,7 +126,7 @@ export const PROJECTS: Project[] = [
 			{ name: "Plotly", category: "data" },
 		],
 		filters: ["ALL", "BACKEND", "FINTECH"],
-		repoUrl: "https://github.com/ZadeNova",
+		repoUrl: "https://github.com/ZadeNova/INF1002_P5-1_Python_Project",
 	},
 	{
 		name: "Class Management System",
@@ -139,7 +139,7 @@ export const PROJECTS: Project[] = [
 			{ name: "MakeFile", category: "ops" },
 		],
 		filters: ["ALL", "SYSTEMS"],
-		repoUrl: "https://github.com/ZadeNova",
+		repoUrl: "https://github.com/ZadeNova/INF1002_C_Project",
 	},
 	{
 		name: "TickerLens",
@@ -156,6 +156,6 @@ export const PROJECTS: Project[] = [
 			{ name: "Recharts", category: "data" },
 		],
 		filters: ["ALL", "BACKEND", "FINTECH"],
-		repoUrl: "https://github.com/ZadeNova",
+		repoUrl: "https://github.com/ZadeNova/TickerLens",
 	},
 ];

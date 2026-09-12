@@ -54,7 +54,7 @@ export default function TimeDisplay() {
 					<circle cx="12" cy="12" r="10" />
 					<polyline points="12 6 12 12 16 14" />
 				</svg>
-				<span className="text-[11px] text-muted font-mono uppercase tracking-widest">
+				<span className="text-label text-muted font-mono uppercase tracking-widest">
 					Singapore
 				</span>
 			</div>
@@ -67,7 +67,7 @@ export default function TimeDisplay() {
 				{timeState.time}
 			</div>
 
-			<div className="text-[11px] text-muted font-mono">{timeState.date}</div>
+			<div className="text-label text-muted font-mono">{timeState.date}</div>
 		</div>
 	);
 }

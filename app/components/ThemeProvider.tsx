@@ -2,16 +2,32 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-export const THEMES = [
+export type Theme =
+	| "everforest-light"
+	| "nord"
+	| "gruvbox"
+	| "rosepine"
+	| "rosepine-dawn"
+	| "dracula";
+
+export interface ThemeOption {
+	id: Theme;
+	name: string;
+	emoji: string;
+}
+
+// Single source of truth for the theme list — id order here also drives the
+// switcher UI (Navbar.tsx), so it's shared rather than duplicated per-consumer.
+export const THEMES: ThemeOption[] = [
 	{ id: "rosepine-dawn", name: "Rosé Pine Dawn", emoji: "🌅" },
 	{ id: "everforest-light", name: "Everforest Light", emoji: "🌲" },
 	{ id: "nord", name: "Nord", emoji: "❄️" },
 	{ id: "gruvbox", name: "Gruvbox", emoji: "🪨" },
 	{ id: "rosepine", name: "Rosé Pine", emoji: "🌸" },
 	{ id: "dracula", name: "Dracula", emoji: "🧛" },
-] as const;
+];
 
-type Theme = (typeof THEMES)[number]["id"];
+const VALID_THEMES: Theme[] = THEMES.map((t) => t.id);
 
 interface ThemeContextType {
 	theme: Theme;
@@ -22,8 +38,6 @@ const ThemeContext = createContext<ThemeContextType>({
 	theme: "rosepine-dawn",
 	setTheme: () => {},
 });
-
-const VALID_THEMES: Theme[] = THEMES.map((t) => t.id);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	const [theme, setTheme] = useState<Theme>("rosepine-dawn");

@@ -123,7 +123,7 @@ function StatusBadge({ config }: { config: StatusConfig }) {
 				aria-hidden="true"
 			/>
 			<span
-				className={`text-[11px] font-mono truncate ${textColor[config.variant]}`}
+				className={`text-label font-mono truncate ${textColor[config.variant]}`}
 			>
 				{config.label}
 			</span>
@@ -152,11 +152,11 @@ function YamlSection({
 	return (
 		<div className="mb-3">
 			{comment && (
-				<div className="text-[11px] text-muted italic mb-0.5 font-mono">
+				<div className="text-label text-muted italic mb-0.5 font-mono">
 					# {comment}
 				</div>
 			)}
-			<div className="text-[11px] text-accent-lavender font-mono font-semibold mb-1">
+			<div className="text-label text-accent-lavender font-mono font-semibold mb-1">
 				{header}:
 			</div>
 			<div className="pl-3 space-y-0.5">{children}</div>
@@ -172,7 +172,7 @@ function YamlKeyList({
 	values: string[];
 }) {
 	return (
-		<div className="flex gap-x-2 font-mono text-[11px] leading-relaxed flex-wrap">
+		<div className="flex gap-x-2 font-mono text-label leading-relaxed flex-wrap">
 			<span className="text-accent-blue flex-shrink-0 min-w-[100px]">
 				{yamlKey}:
 			</span>
@@ -195,14 +195,14 @@ function YamlKeyList({
 function SessionMetrics() {
 	return (
 		<div className="space-y-2">
-			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
+			<div className="text-label text-muted uppercase tracking-widest mb-3 font-mono">
 				SESSION_METRICS
 			</div>
 			<div className="space-y-1.5">
 				{SESSION_METRICS.map((m) => (
 					<div
 						key={m.key}
-						className="flex font-mono text-[11px] leading-relaxed"
+						className="flex font-mono text-label leading-relaxed"
 					>
 						<span className="text-accent-blue w-[72px] flex-shrink-0">
 							{m.key}
@@ -225,10 +225,10 @@ function QuoteCard() {
 
 	return (
 		<div className="flex flex-col h-full">
-			<div className="text-[11px] text-muted uppercase tracking-widest mb-3 font-mono">
+			<div className="text-label text-muted uppercase tracking-widest mb-3 font-mono">
 				quote.txt
 			</div>
-			<p className="text-[13px] text-foreground leading-relaxed font-sans italic">
+			<p className="text-body text-foreground leading-relaxed font-sans italic">
 				&ldquo;{quote}&rdquo;
 			</p>
 		</div>
@@ -269,8 +269,8 @@ function TerminalTypingRows({
 						key={key}
 						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
 					>
-						<span className="text-[11px] text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
-						<span className="text-[13px] text-foreground pl-2 sm:pl-0">{value}</span>
+						<span className="text-label text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-body text-foreground pl-2 sm:pl-0">{value}</span>
 					</div>
 				))}
 			</div>
@@ -288,8 +288,8 @@ function TerminalTypingRows({
 						key={key}
 						className="flex flex-col sm:flex-row sm:gap-2 leading-relaxed"
 					>
-						<span className="text-[11px] text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
-						<span className="text-[13px] text-foreground pl-2 sm:pl-0">
+						<span className="text-label text-accent-blue flex-shrink-0 sm:w-28">{key}</span>
+						<span className="text-body text-foreground pl-2 sm:pl-0">
 							{display}
 							{isTyping && <span className="cursor-blink" aria-hidden="true" />}
 						</span>
@@ -353,11 +353,11 @@ function LanguageBreakdownBar() {
 
 	return (
 		<div ref={ref} className="mt-3 border-t border-border/20 pt-3">
-			<div className="text-[11px] text-muted uppercase tracking-widest mb-1.5">
+			<div className="text-label text-muted uppercase tracking-widest mb-1.5">
 				# language_breakdown (live, by bytes)
 			</div>
 			{error ? (
-				<div className="text-[11px] text-muted font-mono">unavailable</div>
+				<div className="text-label text-muted font-mono">unavailable</div>
 			) : !breakdown ? (
 				<div>
 					<Skeleton className="h-2 w-full rounded-full" />
@@ -392,7 +392,7 @@ function LanguageBreakdownBar() {
 						{breakdown.map((lang) => (
 							<div
 								key={lang.name}
-								className="flex items-center gap-1.5 font-mono text-[11px]"
+								className="flex items-center gap-1.5 font-mono text-label"
 							>
 								<span
 									className="w-1.5 h-1.5 rounded-full flex-shrink-0"
@@ -427,10 +427,10 @@ export default function Hero() {
 	return (
 		<section
 			id="home"
-			className="py-10 md:py-14 px-4 sm:px-6 max-w-[1400px] mx-auto"
+			className="py-10 md:py-14 min-[1920px]:py-8 px-4 sm:px-6 max-w-[max(1400px,min(94vw,1700px))] mx-auto"
 			aria-label="Portfolio hero section"
 		>
-			<div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
+			<div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4 min-[1920px]:gap-3 min-[1920px]:mb-3">
 				{/* Col 1 — Terminal card */}
 				<motion.div
 					className="glass-card md:col-span-3 rounded-r-lg border-l-2 border-l-accent-lavender overflow-hidden font-mono flex flex-col"
@@ -440,7 +440,7 @@ export default function Hero() {
 					custom={0}
 				>
 					<div className="flex items-center justify-between px-3 py-2 bg-background/40 border-b border-border/40 gap-2 flex-shrink-0">
-						<span className="text-[11px] text-muted tracking-wide flex-shrink-0">
+						<span className="text-label text-muted tracking-wide flex-shrink-0">
 							zade@portfolio:~
 						</span>
 						<div className="flex items-center gap-2 flex-shrink-0">
@@ -450,29 +450,29 @@ export default function Hero() {
 
 					<div className="p-4 flex-1 flex flex-col">
 						<div className="mb-5">
-							<div className="text-base font-semibold text-accent-lavender leading-snug">
+							<div className="text-subhead font-semibold text-accent-lavender">
 								{DISPLAY_NAME}
 							</div>
-							<div className="text-[13px] text-foreground font-medium mt-1">
+							<div className="text-body text-foreground font-medium mt-1">
 								{ROLE_TAGLINE}
 							</div>
 						</div>
 
 						<div className="space-y-3.5">
 							<div>
-				<div className="text-[11px] text-muted uppercase tracking-widest mb-0.5">
+				<div className="text-label text-muted uppercase tracking-widest mb-0.5">
 									education
 								</div>
-								<div className="text-[13px] text-foreground">
+								<div className="text-body text-foreground">
 									{EDUCATION}
 								</div>
 							</div>
 
 							<div>
-								<div className="text-[11px] text-muted uppercase tracking-widest mb-0.5">
+								<div className="text-label text-muted uppercase tracking-widest mb-0.5">
 									currently building
 								</div>
-								<div className="text-[13px] text-foreground flex items-center flex-wrap gap-1">
+								<div className="text-body text-foreground flex items-center flex-wrap gap-1">
 									Something cool, hopefully...
 									<BlinkingCursor />
 								</div>
@@ -493,8 +493,8 @@ export default function Hero() {
 					animate="visible"
 					custom={0.15}
 				>
-					<div className="p-4 sm:p-5 flex flex-col h-full">
-						<div className="text-[11px] text-muted uppercase tracking-widest mb-4">
+					<div className="p-4 sm:p-5 min-[1920px]:p-4 flex flex-col h-full">
+						<div className="text-label text-muted uppercase tracking-widest mb-4">
 							about_me.txt
 						</div>
 						<TerminalTypingRows
@@ -502,24 +502,24 @@ export default function Hero() {
 							reducedMotion={!!shouldReduceMotion}
 						/>
 						<div className="border-t border-border/30 pt-3 mb-4">
-							<p className="text-[13px] text-foreground leading-relaxed font-sans">
+							<p className="text-body text-foreground leading-relaxed font-sans">
 								{BIO_PARAGRAPH}
 							</p>
 						</div>
 						<div className="mt-auto border-t border-border/30 pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div>
-								<div className="text-[11px] text-muted uppercase tracking-widest mb-1">
+								<div className="text-label text-muted uppercase tracking-widest mb-1">
 									Seeking
 								</div>
-						<div className="text-[13px] text-foreground">
+						<div className="text-body text-foreground">
 									{SEEKING_PERIOD}
 								</div>
 							</div>
 							<div>
-								<div className="text-[11px] text-muted uppercase tracking-widest mb-1">
+								<div className="text-label text-muted uppercase tracking-widest mb-1">
 									Interests
 								</div>
-								<div className="text-[13px] text-foreground">
+								<div className="text-body text-foreground">
 									{FOCUS_AREAS}
 								</div>
 							</div>
@@ -527,13 +527,13 @@ export default function Hero() {
 					</div>
 				</motion.div>
 
-				{/* Col 3 — Time + Theme */}
+				{/* Col 3 — Time + Quote */}
 				<motion.div
 					className="md:col-span-3 grid grid-cols-2 gap-4 md:grid-cols-1 md:flex md:flex-col"
 					variants={panelVariants}
 					initial="hidden"
 					animate="visible"
-					custom={0.30}
+					custom={0.3}
 				>
 					<div className="glass-card rounded-lg p-4 font-mono flex-shrink-0">
 						<TimeDisplay />
@@ -546,7 +546,7 @@ export default function Hero() {
 
 			{/* YAML Stack Manifest */}
 			<motion.div
-				className="glass-card rounded-lg p-4 sm:p-5 mb-4 font-mono"
+				className="glass-card rounded-lg p-4 sm:p-5 min-[1920px]:p-4 mb-4 min-[1920px]:mb-3 font-mono"
 				variants={panelVariants}
 				initial="hidden"
 				animate="visible"
@@ -558,11 +558,11 @@ export default function Hero() {
 							className="w-2 h-2 rounded-full bg-accent-lavender animate-pulse"
 							aria-hidden="true"
 						/>
-						<span className="text-[11px] text-foreground font-bold tracking-[0.15em] uppercase">
+						<span className="text-label text-foreground font-bold tracking-[0.15em] uppercase">
 							<ScrambleText text="TECH_STACK" />
 						</span>
 					</div>
-					<span className="text-[11px] text-muted hidden sm:block">
+					<span className="text-label text-muted hidden sm:block">
 						<ScrambleText text="stack.manifest.yml" />
 					</span>
 				</div>
@@ -603,7 +603,7 @@ export default function Hero() {
 			>
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-2">
 					<div className="flex items-center gap-2 flex-wrap">
-						<span className="text-[11px] text-muted uppercase tracking-widest flex-shrink-0">
+						<span className="text-label text-muted uppercase tracking-widest flex-shrink-0">
 							01_Socials
 						</span>
 						<div className="flex gap-2 flex-wrap">
@@ -613,7 +613,7 @@ export default function Hero() {
 									href={social.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="text-[11px] text-foreground border-[0.5px] border-border rounded px-2.5 py-1.5 hover:border-accent-lavender hover:text-accent-lavender transition-colors"
+									className="text-label text-foreground border-[0.5px] border-border rounded px-2.5 py-1.5 hover:border-accent-lavender hover:text-accent-lavender transition-colors"
 								>
 									<ScrambleText text={social.label} />
 								</a>
@@ -625,13 +625,13 @@ export default function Hero() {
 						aria-hidden="true"
 					/>
 					<div className="flex items-center gap-2 flex-wrap">
-						<span className="text-[11px] text-muted uppercase tracking-widest flex-shrink-0">
+						<span className="text-label text-muted uppercase tracking-widest flex-shrink-0">
 							02_Assets
 						</span>
 						<div className="flex gap-2 flex-wrap">
 							<a
 								href="#projects"
-								className="text-[11px] text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
+								className="text-label text-accent-lavender border-[0.5px] border-accent-lavender/40 rounded px-2.5 py-1.5 hover:bg-accent-lavender/10 transition-colors"
 							>
 								View_Projects
 							</a>

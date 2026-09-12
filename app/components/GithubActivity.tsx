@@ -44,7 +44,7 @@ function HeatmapCell({ day }: { day: ContributionDay }) {
 				opacity-0 scale-95 group-hover/cell:opacity-100 group-hover/cell:scale-100
 				transition-[opacity,transform] duration-150 whitespace-nowrap"
 			>
-				<div className="glass-card rounded px-2 py-1 text-[11px] font-mono leading-tight">
+				<div className="glass-card rounded px-2 py-1 text-label font-mono leading-tight">
 					<span className="text-accent-lavender font-semibold">
 						{day.count}
 					</span>{" "}
@@ -65,11 +65,11 @@ function RecentActivityFeed({
 }) {
 	return (
 		<div className="flex flex-col h-full">
-			<div className="text-[11px] text-muted uppercase tracking-widest mb-2.5">
+			<div className="text-label text-muted uppercase tracking-widest mb-2.5">
 				# recent_activity
 			</div>
 			{error && (
-				<div className="text-[11px] text-muted font-mono">
+				<div className="text-label text-muted font-mono">
 					recent_activity: unavailable
 				</div>
 			)}
@@ -87,7 +87,7 @@ function RecentActivityFeed({
 				</ul>
 			)}
 			{!error && items && items.length === 0 && (
-				<div className="text-[11px] text-muted font-mono">
+				<div className="text-label text-muted font-mono">
 					no recent public activity
 				</div>
 			)}
@@ -96,14 +96,14 @@ function RecentActivityFeed({
 					{items.map((item) => (
 						<li
 							key={item.sha}
-							className="group/item text-[11px] font-mono leading-snug"
+							className="group/item text-label font-mono leading-snug"
 							title={item.message}
 						>
 							<div className="flex items-baseline justify-between gap-2">
 								<span className="text-accent-lavender truncate">
 									{item.repo}
 								</span>
-								<span className="text-muted text-[11px] flex-shrink-0">
+								<span className="text-muted text-label flex-shrink-0">
 									{relativeTime(item.date)}
 								</span>
 							</div>
@@ -155,11 +155,11 @@ export default function GithubActivity() {
 	return (
 		<section
 			id="activity"
-			className="py-10 md:py-14 px-4 sm:px-6 max-w-[1400px] mx-auto"
+			className="py-10 md:py-14 min-[1920px]:py-8 px-4 sm:px-6 max-w-[max(1400px,min(94vw,1700px))] mx-auto"
 			aria-label="GitHub activity"
 		>
 			<motion.div
-				className="glass-card rounded-lg px-5 py-5"
+				className="glass-card rounded-lg px-5 py-5 min-[1920px]:px-4 min-[1920px]:py-4"
 				initial={{ opacity: 0, y: 16 }}
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
@@ -171,11 +171,11 @@ export default function GithubActivity() {
 							className="w-2 h-2 rounded-full bg-accent-lavender animate-pulse"
 							aria-hidden="true"
 						/>
-						<h2 className="text-[11px] font-bold text-foreground uppercase tracking-[0.15em] font-mono">
+						<h2 className="text-heading font-bold text-foreground uppercase tracking-widest font-mono">
 							GITHUB_ACTIVITY
 						</h2>
 					</div>
-					<span className="text-[11px] text-muted font-mono">
+					<span className="text-label text-muted font-mono">
 						{heatmapError ? (
 							"unavailable"
 						) : !days ? (
@@ -191,10 +191,10 @@ export default function GithubActivity() {
 					</span>
 				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10">
+				<div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 min-[1920px]:gap-6">
 					<div className="min-w-0">
 						{heatmapError && (
-							<div className="text-[11px] text-muted font-mono">
+							<div className="text-label text-muted font-mono">
 								github_activity: unavailable
 							</div>
 						)}

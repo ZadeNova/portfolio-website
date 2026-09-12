@@ -40,13 +40,13 @@ export default function Footer(): ReactElement {
 	return (
 		<footer
 			id="contact"
-			className="py-8 px-4 sm:px-6 max-w-[1400px] mx-auto"
+			className="py-8 min-[1920px]:py-6 px-4 sm:px-6 max-w-[max(1400px,min(94vw,1700px))] mx-auto"
 			aria-label="Site footer"
 		>
 			<div className="glass-card rounded-lg px-5 py-4">
 				{/* System status bar */}
 				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 pb-4 border-b border-border/20">
-					<div className="flex flex-wrap gap-x-5 gap-y-1 text-[11px] font-mono">
+					<div className="flex flex-wrap gap-x-5 gap-y-1 text-label font-mono">
 						<span title={GIT_MESSAGE || undefined}>
 							<span className="text-muted mr-1.5">DEPLOY:</span>
 							<span className="text-accent-lavender font-semibold">
@@ -65,7 +65,7 @@ export default function Footer(): ReactElement {
 							<span className="text-foreground">{FRAMEWORK}</span>
 						</span>
 					</div>
-					<div className="flex items-center gap-1.5 text-[11px] font-mono">
+					<div className="flex items-center gap-1.5 text-label font-mono">
 						<span
 							className="w-1.5 h-1.5 rounded-full bg-accent-green animate-pulse flex-shrink-0"
 							aria-hidden="true"
@@ -77,7 +77,7 @@ export default function Footer(): ReactElement {
 				</div>
 
 				{/* Availability + contact */}
-				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-4 pb-4 border-b border-border/20 text-[11px] font-mono">
+				<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 mb-4 pb-4 border-b border-border/20 text-label font-mono">
 					<div className="flex flex-wrap gap-x-5 gap-y-1">
 						<span>
 							<span className="text-muted mr-1.5">SEEKING:</span>
@@ -114,7 +114,7 @@ export default function Footer(): ReactElement {
 										aria-label={link.label}
 									>
 										<span className="transition-colors">{link.icon}</span>
-										<span className="text-[12px] font-mono border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
+										<span className="text-label font-mono border-b border-transparent group-hover:border-accent-lavender/50 pb-px transition-colors">
 											{link.label}
 										</span>
 									</a>
@@ -122,7 +122,7 @@ export default function Footer(): ReactElement {
 							))}
 						</ul>
 					</nav>
-					<p className="text-[12px] text-muted font-mono text-center sm:text-right">
+					<p className="text-label text-muted font-mono text-center sm:text-right">
 						© {year} {NAME} — Built with Next.js &amp; Tailwind CSS
 					</p>
 				</div>
