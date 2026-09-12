@@ -6,21 +6,23 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Everforest Light ────────────────────────────────────────────────────── */
-/* bg0=soft, bg1=medium (base), bg2=hard (cards) — accent-lavender mapped to
-   "Purple / Special Focus", accent-blue mapped to "Blue / Links / Active"   */
+/* All surfaces pinned to the official "soft" contrast preset, forming one
+   ramp: bg0 (page) → bg1 (cards) → bg2 (border). accent-lavender/accent-blue
+   are hand-darkened from Everforest's real purple/blue for AA contrast on
+   this light background — not official Everforest hex values.             */
 [data-theme="everforest-light"] {
-	--background: #f9f3df; /* Medium — Default Base */
-	--foreground: #4f5b62; /* Default Text — 5.87:1 PASS */
-	--accent-lavender: #8f537f; /* Purple — Special Focus */
-	--accent-blue: #2e7099; /* Blue — Links / Active */
+	--background: #f3ead3; /* bg0, soft */
+	--foreground: #4f5b62; /* Default Text — 5.8:1 on background PASS */
+	--accent-lavender: #8f537f; /* darkened from official purple #df69ba for contrast */
+	--accent-blue: #2e7099; /* darkened from official blue #3a94c5 for contrast */
 	--accent-green: #2e6a2e; /* Dark forest green — 5.69:1 on card-bg PASS */
-	--border: #e5dfc5;
-	--muted: #495247; /* Subtle / Muted Text — 6.83:1 PASS */
-	--card-bg: #f3ebd2; /* Hard — Cards, Sidebars, Modals */
+	--border: #e5dfc5; /* bg2, soft */
+	--muted: #495247; /* Subtle / Muted Text — 6.8:1 on background PASS */
+	--card-bg: #eae4ca; /* bg1, soft */
 	--glow-color: rgba(143, 83, 127, 0.12);
 	--link-glow-color: rgba(143, 83, 127, 0.25);
 	--dot-color: rgba(79, 91, 98, 0.08);
-	--glass-bg: rgba(255, 249, 232, 0.85); /* Soft — Large surfaces */
+	--glass-bg: rgba(234, 228, 202, 0.85); /* matches card-bg */
 	--glass-border: rgba(143, 83, 127, 0.15);
 	--glass-tint: rgba(143, 83, 127, 0.04);
 	--shadow-ambient: rgba(0, 0, 0, 0.06);
@@ -50,19 +52,23 @@
 }
 
 /* ── Gruvbox ─────────────────────────────────────────────────────────────── */
+/* card-bg sits on dark1, one step lighter than the dark0 page background, so
+   cards read as raised surfaces instead of receding into a hole (dark0_hard
+   was darker than the page itself). Ramp: dark0 (page) → dark1 (cards) →
+   dark2 (border).                                                          */
 [data-theme="gruvbox"] {
 	--background: #282828;
 	--foreground: #ebdbb2;
 	--accent-lavender: #fe8019;
 	--accent-blue: #83a598;
-	--accent-green: #b8bb26; /* Gruvbox bright yellow-green — 8.58:1 on card-bg PASS */
+	--accent-green: #b8bb26; /* Gruvbox bright yellow-green — 5.6:1 on card-bg PASS */
 	--border: #504945;
 	--muted: #a89984; /* fg4 — 5.90:1 PASS */
-	--card-bg: #1d2021;
+	--card-bg: #3c3836; /* dark1 */
 	--glow-color: rgba(254, 128, 25, 0.12);
 	--link-glow-color: rgba(254, 128, 25, 0.25);
 	--dot-color: rgba(254, 128, 25, 0.05);
-	--glass-bg: rgba(29, 32, 33, 0.85);
+	--glass-bg: rgba(60, 56, 54, 0.85); /* matches card-bg */
 	--glass-border: rgba(254, 128, 25, 0.15);
 	--glass-tint: rgba(254, 128, 25, 0.06);
 	--shadow-ambient: rgba(0, 0, 0, 0.4);
@@ -135,6 +141,23 @@
 	--hover-glow: rgba(255, 121, 198, 0.22);
 }
 
+/* ─── Type scale ──────────────────────────────────────────────────────────── */
+/* Five roles, each tied to what the text is for rather than where it sits.
+   See CLAUDE.md for the full rationale — pick a tier below instead of an
+   arbitrary text-[Npx] value. */
+:root {
+	--text-label: 12px;
+	--text-label--line-height: 1.5;
+	--text-body: 15px;
+	--text-body--line-height: 1.65;
+	--text-subhead: 16px;
+	--text-subhead--line-height: 1.35;
+	--text-heading: 20px;
+	--text-heading--line-height: 1.3;
+	--text-display: clamp(28px, 5vw, 40px);
+	--text-display--line-height: 1.15;
+}
+
 /* ─── Tailwind theme bridge ───────────────────────────────────────────────── */
 @theme inline {
 	--color-background: var(--background);
@@ -147,13 +170,30 @@
 	--color-card-bg: var(--card-bg);
 	--color-glow: var(--glow-color);
 	--color-link-glow: var(--link-glow-color);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--font-sans: var(--font-plex-sans);
+	--font-mono: var(--font-plex-mono);
+	--text-label: var(--text-label);
+	--text-label--line-height: var(--text-label--line-height);
+	--text-body: var(--text-body);
+	--text-body--line-height: var(--text-body--line-height);
+	--text-subhead: var(--text-subhead);
+	--text-subhead--line-height: var(--text-subhead--line-height);
+	--text-heading: var(--text-heading);
+	--text-heading--line-height: var(--text-heading--line-height);
+	--text-display: var(--text-display);
+	--text-display--line-height: var(--text-display--line-height);
 }
 
 /* ─── Base styles ─────────────────────────────────────────────────────────── */
 html {
 	scroll-behavior: smooth;
+}
+
+/* Same accent-bg + background-text pairing already used for the active
+   theme option in Navbar's theme dropdown — verified legible across all 6 themes. */
+::selection {
+	background-color: var(--accent-lavender);
+	color: var(--background);
 }
 
 body {
@@ -166,9 +206,9 @@ body {
 	background-size: 24px 24px;
 	background-attachment: fixed;
 	color: var(--foreground);
-	font-family: var(--font-geist-sans), system-ui, sans-serif;
-	font-size: 13px;
-	line-height: 1.6;
+	font-family: var(--font-plex-sans), system-ui, sans-serif;
+	font-size: var(--text-body);
+	line-height: var(--text-body--line-height);
 	transition:
 		background-color 0.4s ease,
 		color 0.4s ease;
@@ -180,7 +220,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: var(--font-geist-mono), "JetBrains Mono", monospace;
+	font-family: var(--font-plex-mono), "IBM Plex Mono", monospace;
 }
 
 /* ─── Theme transition ────────────────────────────────────────────────────── */
